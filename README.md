@@ -33,6 +33,7 @@ Customization Catalog
 
 ### Plugins
 * local-completion: load local completion files from `$HOME/.bash_completion.d`
+* local-bashrc: load local initialization files from `$HOME/.bashrc.d`
 
 License
 -------
