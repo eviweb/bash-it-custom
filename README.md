@@ -31,6 +31,9 @@ Customization Catalog
 ### Completion
 * bash-it: bash-it completion for the `bit` shortcut
 
+### Plugins
+* local-completion: load local completion files from `$HOME/.bash_completion.d`
+
 License
 -------
 this project is licensed under the terms of the [MIT License](/LICENSE)
