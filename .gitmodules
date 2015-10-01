@@ -1,3 +1,6 @@
 [submodule "shunit2"]
 	path = lib/shunit2
 	url = https://github.com/kward/shunit2.git
+[submodule "shell-testlib"]
+	path = lib/shell-testlib
+	url = https://github.com/eviweb/shell-testlib
