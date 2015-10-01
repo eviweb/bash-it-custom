@@ -12,3 +12,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     * completion
     * lib
     * plugins
+- bash-it completion for the 'bit' shortcut
+- bash-it aliases
+- git aliases
