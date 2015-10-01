@@ -11,7 +11,7 @@ loadCustomFrom()
         exit 1
     fi
 
-    for custom in ${customdir}/*.bash; do
-        . "${custom}"
+    for custom in ${customdir}/*; do
+        [[ ${custom} =~ \.bash ]] && . "${custom}"
     done
 }

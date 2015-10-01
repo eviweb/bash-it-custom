@@ -75,6 +75,13 @@ testLoaderShouldComplainIfTheGivenLocationDoesNotExists()
     assertSame "The error message is displayed through the standard error" "${expected}" "$(cat ${FSTDERR})"
 }
 
+testLoaderShouldNotComplainIfTheLocationIsEmpty()
+{
+    loadCustomFrom "${HOME}"
+    assertNull "No message in the standard output" "$(cat ${FSTDOUT})"
+    assertNull "No message in the standard error" "$(cat ${FSTDERR})"
+}
+
 ###### Setup / Teardown #####
 oneTimeSetUp()
 {
