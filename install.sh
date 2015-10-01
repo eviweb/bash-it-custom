@@ -46,6 +46,19 @@ isUnlinkable()
     return ${unlinkable}
 }
 
+# check bash it installation dir
+checkBashItDir()
+{
+    if [ -z "${BASH_IT}" ]; then
+        echo "No bash-it installation found, abort." >&2
+        exit 1
+    fi
+    if [ ! -e "${BASH_IT}" ]; then
+        echo "Invalid path for bash-it: ${BASH_IT}, abort." >&2
+        exit 1
+    fi
+}
+
 # install
 install()
 {
@@ -81,7 +94,7 @@ done
 shift $(($OPTIND - 1 ))
 
 if ((${UNINSTALL})); then
-    uninstall
+    checkBashItDir && uninstall
 else
-    install
+    checkBashItDir && install
 fi

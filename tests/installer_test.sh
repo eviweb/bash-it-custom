@@ -94,6 +94,34 @@ testUninstallerShouldOnlyRemoveLinksThatPointToThisLib()
     assertTrue "${file} still exists" "[ -h ${BASH_IT}/aliases/${file##*/} ]"
 }
 
+testInstallerShouldCheckBashItGlobalVar()
+{
+    local expected="No bash-it installation found, abort."
+    unset BASH_IT
+
+    assertFalse "installation should fail" "runInstaller > ${FSTDOUT} 2> ${FSTDERR}"
+    assertNull "no message to standard output" "$(cat ${FSTDOUT})"
+    assertSame "the expected message is displayed" "${expected}" "$(cat ${FSTDERR})"
+
+    assertFalse "installation should fail" "runInstaller -u > ${FSTDOUT} 2> ${FSTDERR}"
+    assertNull "no message to standard output" "$(cat ${FSTDOUT})"
+    assertSame "the expected message is displayed" "${expected}" "$(cat ${FSTDERR})"
+}
+
+testInstallerShouldCheckBashItCorrectPath()
+{
+    export BASH_IT="/wrong/path"
+    local expected="Invalid path for bash-it: ${BASH_IT}, abort."
+
+    assertFalse "installation should fail" "runInstaller > ${FSTDOUT} 2> ${FSTDERR}"
+    assertNull "no message to standard output" "$(cat ${FSTDOUT})"
+    assertSame "the expected message is displayed" "${expected}" "$(cat ${FSTDERR})"
+
+    assertFalse "installation should fail" "runInstaller -u > ${FSTDOUT} 2> ${FSTDERR}"
+    assertNull "no message to standard output" "$(cat ${FSTDOUT})"
+    assertSame "the expected message is displayed" "${expected}" "$(cat ${FSTDERR})"
+}
+
 testInstallerUsage()
 {
     local expected="Usage:"
@@ -117,7 +145,7 @@ oneTimeTearDown()
 setUp()
 {    
     OLDPWD="$PWD"
-    OLDBASH_IT="$BASH_IT"
+    export OLDBASH_IT="$BASH_IT"
     prepareTestEnvironment
     newFakeBashItDir
 }
@@ -126,13 +154,13 @@ tearDown()
 {
     deleteBashItDir
     cd "$OLDPWD"
-    BASH_IT="${OLDBASH_IT}"
+    export BASH_IT="${OLDBASH_IT}"
 }
 
 newFakeBashItDir()
 {
     mkdir -p ${HOME}/.bash_it/{lib,custom,aliases,plugins,completion}
-    BASH_IT="${HOME}/.bash_it"
+    export BASH_IT="${HOME}/.bash_it"
 }
 
 deleteBashItDir()
