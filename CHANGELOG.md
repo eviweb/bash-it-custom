@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### [Unreleased][unreleased]
 
+#### Fixed
+- bash-it aliases plural issue in component types
+
 #### Added
 - local-completion plugin
 - local-bashrc plugin
