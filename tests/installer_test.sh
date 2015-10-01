@@ -64,6 +64,9 @@ testInstall()
 
     for file in "${files[@]}"; do
         assertTrue "${file/$(dirname ${BASH_IT})\//} exists" "[ -h ${file} ]"
+
+        local realfile="$(readlink -f ${file})"
+        assertTrue "The real file exists" "[ -e ${realfile} ]"
     done
 }
 
