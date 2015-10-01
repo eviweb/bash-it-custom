@@ -7,3 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - package files
 - installer
 - internal loader
+- custom loaders:
+    * aliases
+    * completion
+    * lib
+    * plugins
