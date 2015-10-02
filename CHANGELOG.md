@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Added
 - local-completion plugin
 - local-bashrc plugin
+- more git aliases
 
 ### 0.1.0 - 2015-10-01
 #### Added
