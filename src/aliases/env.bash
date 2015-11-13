@@ -1,0 +1,1 @@
+alias reload="exec bash -l"
