@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - local-bashrc plugin
 - more git aliases
 - environment related aliases
+- projects plugin additional aliases
 
 ### 0.1.0 - 2015-10-01
 #### Added
