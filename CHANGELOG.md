@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - projects plugin additional aliases
 - custom loader:
     * custom
+- updater
 
 ### 0.1.0 - 2015-10-01
 #### Added

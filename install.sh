@@ -7,16 +7,23 @@ bash_it_custom_maindir()
     echo "$(dirname $(readlink -f ${BASH_SOURCE}))"
 }
 
+# get bash it custom updates directory
+bash_it_custom_updatesdir()
+{
+    echo "$(bash_it_custom_maindir)/updates"
+}
+
 # installer usage
 usage() {
     echo "
     Usage:
         ./install.sh [OPTIONS]
     Options:
+        -U      update packages in \$BASH_IT
         -u      uninstall bash-it-custom package from \$BASH_IT
         -h      display this message
 
-    Install/uninstall bash-it-custom package to \$BASH_IT
+    Install/update/uninstall bash-it-custom package to \$BASH_IT
 "
 }
 
@@ -60,6 +67,24 @@ checkBashItDir()
     fi
 }
 
+# get updates
+get_updates()
+{
+    ls -v $(bash_it_custom_updatesdir)
+}
+
+# apply update
+apply_update()
+{
+    local update_file="$1"
+    local filename="${update_file##*/}"
+    local update_pattern="${filename%.*}"
+    update="update_${update_pattern//./}"
+
+    . "${update_file}"
+    ${update}
+}
+
 # install
 install()
 {
@@ -83,12 +108,24 @@ uninstall()
     done
 }
 
-OPTIONS=":hu"
+# update
+update()
+{
+    local updates=( $(get_updates) )
+
+    for update in "${updates[@]}"; do
+        apply_update "$(bash_it_custom_updatesdir)/${update}"
+    done
+    install
+}
+
+OPTIONS=":huU"
 # get command line options
 while getopts $OPTIONS option
 do
     case $option in
         u) UNINSTALL=1;;
+        U) UPDATE=1;;
         *) usage && exit 1;;
     esac
 done
@@ -96,6 +133,8 @@ shift $(($OPTIND - 1 ))
 
 if ((${UNINSTALL})); then
     checkBashItDir && uninstall
+elif ((${UPDATE})); then
+    checkBashItDir && update
 else
     checkBashItDir && install
 fi
