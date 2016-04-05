@@ -6,4 +6,4 @@ custom_srcdir()
 
 . $(custom_srcdir)/loader.sh
 
-loadCustomFrom "$(custom_srcdir)/custom"
+loadCustomFrom "$(custom_srcdir)/lib"

@@ -128,7 +128,7 @@ testInstallerCanBeRunTwice()
     eval "$(fileProvider)"
 
     runInstaller
-    
+
     assertTrue "installation can be run twice" "runInstaller > ${FSTDOUT} 2> ${FSTDERR}"
     assertNull "no message to standard error" "$(cat ${FSTDERR})"
     for file in "${files[@]}"; do
@@ -195,7 +195,8 @@ fileProvider()
     declare -a files=(
         ${BASH_IT}/aliases/custom.aliases.bash
         ${BASH_IT}/completion/custom.completion.bash
-        ${BASH_IT}/lib/custom.bash
+        ${BASH_IT}/custom/custom.bash
+        ${BASH_IT}/lib/custom.lib.bash
         ${BASH_IT}/plugins/custom.plugins.bash
     )
 

@@ -26,7 +26,8 @@ get_links()
     declare -A links=(
         ["custom.aliases.bash"]="aliases"
         ["custom.completion.bash"]="completion"
-        ["custom.bash"]="lib"
+        ["custom.bash"]="custom"
+        ["custom.lib.bash"]="lib"
         ["custom.plugins.bash"]="plugins"
     )
 

@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### [Unreleased][unreleased]
 
+#### Changed
+- lib/custom.bash link updated and renamed to lib/custom.lib.bash
+
 #### Fixed
 - bash-it aliases plural issue in component types
 - installer can be run twice
@@ -14,6 +17,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - more git aliases
 - environment related aliases
 - projects plugin additional aliases
+- custom loader:
+    * custom
 
 ### 0.1.0 - 2015-10-01
 #### Added
