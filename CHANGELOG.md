@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - custom loader:
     * custom
 - updater
+- automatic alias completion
 
 ### 0.1.0 - 2015-10-01
 #### Added
