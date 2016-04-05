@@ -54,6 +54,14 @@ libdir()
 use "envbuilder"
 load $(srcdir)/loader.sh
 
+############# Custom Utilities #############
+supportdir()
+{
+    echo "$(qatestdir)/support"
+}
+
+load "$(supportdir)/common.sh"
+
 ################ Unit tests ################
 testLoader()
 {
@@ -83,18 +91,6 @@ testLoaderShouldNotComplainIfTheLocationIsEmpty()
 }
 
 ###### Setup / Teardown #####
-oneTimeSetUp()
-{
-    newTestDir
-    changeHomeDir "${ENVBUILDER_TEMPDIR}"
-}
-
-oneTimeTearDown()
-{
-    removeTestDir
-    revertHomeDir
-}
-
 setUp()
 {    
     OLDPWD="$PWD"

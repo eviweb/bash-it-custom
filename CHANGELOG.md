@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### Changed
 - lib/custom.bash link updated and renamed to lib/custom.lib.bash
+- refactor tests -> extract common functions in support libraries
 
 #### Fixed
 - bash-it aliases plural issue in component types

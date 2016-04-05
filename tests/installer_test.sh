@@ -53,6 +53,13 @@ libdir()
 
 use "envbuilder"
 
+############# Custom Utilities #############
+supportdir()
+{
+    echo "$(qatestdir)/support"
+}
+
+load "$(supportdir)/*"
 
 ################ Unit tests ################
 testInstall()
@@ -144,63 +151,6 @@ testInstallerUsage()
     local expected="Usage:"
 
     assertEquals "usage is printed" "${expected}" "$(runInstaller -h | grep -o ${expected})"
-}
-
-###### Setup / Teardown #####
-oneTimeSetUp()
-{
-    newTestDir
-    changeHomeDir "${ENVBUILDER_TEMPDIR}"
-}
-
-oneTimeTearDown()
-{
-    removeTestDir
-    revertHomeDir
-}
-
-setUp()
-{    
-    OLDPWD="$PWD"
-    export OLDBASH_IT="$BASH_IT"
-    prepareTestEnvironment
-    newFakeBashItDir
-}
-
-tearDown()
-{
-    deleteBashItDir
-    cd "$OLDPWD"
-    export BASH_IT="${OLDBASH_IT}"
-}
-
-newFakeBashItDir()
-{
-    mkdir -p ${HOME}/.bash_it/{lib,custom,aliases,plugins,completion}
-    export BASH_IT="${HOME}/.bash_it"
-}
-
-deleteBashItDir()
-{
-    rm -rf "${ENVBUILDER_TEMPDIR}/.bash_it"
-}
-
-runInstaller()
-{
-    $(maindir)/install.sh "$@"
-}
-
-fileProvider()
-{
-    declare -a files=(
-        ${BASH_IT}/aliases/custom.aliases.bash
-        ${BASH_IT}/completion/custom.completion.bash
-        ${BASH_IT}/custom/custom.bash
-        ${BASH_IT}/lib/custom.lib.bash
-        ${BASH_IT}/plugins/custom.plugins.bash
-    )
-
-    declare -p files
 }
 
 ################ RUN shunit2 ################
