@@ -18,6 +18,10 @@ This can be done by running `exec bash -l` for example, or `reload`.
 > ie. `git clone --recursive https://github.com/eviweb/bash-it-custom`    
 > Then you should be able to run the test suite `bash-it-custom/tests/testsuite.sh`   
 
+Update
+------
+under the `./bash-it-custom` installation directory, run `./install.sh -U`
+
 Uninstallation
 --------------
 under the `./bash-it-custom` installation directory, run `./install.sh -u`
