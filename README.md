@@ -31,6 +31,8 @@ Customization Catalog
 ### Aliases
 * bash-it: bash-it command line aliases
 * git: additional git aliases
+* env: environment related aliases
+* projects.plugin: pojects plugin additional aliases
 
 ### Completion
 * bash-it: bash-it completion for the `bit` shortcut
