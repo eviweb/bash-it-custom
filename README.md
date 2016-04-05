@@ -20,7 +20,7 @@ This can be done by running `exec bash -l` for example, or `reload`.
 
 Update
 ------
-under the `./bash-it-custom` installation directory, run `./install.sh -U`
+under the `./bash-it-custom` installation directory, run `./install.sh -U && reload`
 
 Uninstallation
 --------------
@@ -29,18 +29,26 @@ under the `./bash-it-custom` installation directory, run `./install.sh -u`
 Customization Catalog
 ---------------------
 ### Aliases
-* bash-it: bash-it command line aliases
-* git: additional git aliases
-* env: environment related aliases
-* projects.plugin: pojects plugin additional aliases
+* **bash-it**: bash-it command line aliases
+* **git**: additional git aliases
+* **env**: environment related aliases
+* **projects.plugin**: pojects plugin additional aliases
 
 ### Completion
-* bash-it: bash-it completion for the `bit` shortcut
+* **bash-it**: bash-it completion for the `bit` shortcut
+
+### Custom
+* **alias_completion**: automatic alias completion    
+  _Taken from: [How can I get bash to perform tab-completion for my aliases?][topic1]_    
+  _Special thanks to: [kopischke][kopischke]_
 
 ### Plugins
-* local-completion: load local completion files from `$HOME/.bash_completion.d`
-* local-bashrc: load local initialization files from `$HOME/.bashrc.d`
+* **local-completion**: load local completion files from `$HOME/.bash_completion.d`
+* **local-bashrc**: load local initialization files from `$HOME/.bashrc.d`
 
 License
 -------
 this project is licensed under the terms of the [MIT License](/LICENSE)
+
+[topic1]: http://superuser.com/questions/436314/how-can-i-get-bash-to-perform-tab-completion-for-my-aliases    
+[kopischke]: http://superuser.com/users/101110    
