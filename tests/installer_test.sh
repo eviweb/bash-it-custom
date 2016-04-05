@@ -122,6 +122,23 @@ testInstallerShouldCheckBashItCorrectPath()
     assertSame "the expected message is displayed" "${expected}" "$(cat ${FSTDERR})"
 }
 
+testInstallerCanBeRunTwice()
+{
+    local files
+    eval "$(fileProvider)"
+
+    runInstaller
+    
+    assertTrue "installation can be run twice" "runInstaller > ${FSTDOUT} 2> ${FSTDERR}"
+    assertNull "no message to standard error" "$(cat ${FSTDERR})"
+    for file in "${files[@]}"; do
+        assertTrue "${file/$(dirname ${BASH_IT})\//} exists" "[ -h ${file} ]"
+
+        local realfile="$(readlink -f ${file})"
+        assertTrue "The real file exists" "[ -e ${realfile} ]"
+    done
+}
+
 testInstallerUsage()
 {
     local expected="Usage:"

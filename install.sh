@@ -66,7 +66,7 @@ install()
     eval $(get_links)
 
     for link in "${!links[@]}"; do
-        ln -s $(bash_it_custom_maindir)/src/${link} ${BASH_IT}/${links[${link}]}/${link}
+        ln -fs $(bash_it_custom_maindir)/src/${link} ${BASH_IT}/${links[${link}]}/${link}
     done
 }
 

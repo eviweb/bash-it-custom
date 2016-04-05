@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### Fixed
 - bash-it aliases plural issue in component types
+- installer can be run twice
 
 #### Added
 - local-completion plugin
