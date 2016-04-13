@@ -30,8 +30,9 @@ Customization Catalog
 ---------------------
 ### Aliases
 * **bash-it**: bash-it command line aliases
-* **git**: additional git aliases
 * **env**: environment related aliases
+* **git**: additional git aliases
+* **kitchen**: test kitchen aliases
 * **projects.plugin**: pojects plugin additional aliases
 
 ### Completion

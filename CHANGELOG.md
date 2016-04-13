@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### [Unreleased][unreleased]
 
+#### Added
+- new aliases:
+    + test kitchen
+
 ### 0.1.1 - 2016-04-05
 #### Changed
 - lib/custom.bash link updated and renamed to lib/custom.lib.bash
