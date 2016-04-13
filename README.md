@@ -44,8 +44,9 @@ Customization Catalog
   _Special thanks to: [kopischke][kopischke]_
 
 ### Plugins
-* **local-completion**: load local completion files from `$HOME/.bash_completion.d`
 * **local-bashrc**: load local initialization files from `$HOME/.bashrc.d`
+* **local-completion**: load local completion files from `$HOME/.bash_completion.d`
+* **which-alias-for**: list all related aliases to a given command
 
 License
 -------
