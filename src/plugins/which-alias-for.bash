@@ -3,7 +3,7 @@ _waf_usage()
 {
     echo -e "
     \e[1mUsage:\e[0m
-        ${FUNCNAME} [OPTIONS] COMMAND
+        which_alias_for [OPTIONS] COMMAND
     \e[1mOptions:\e[0m
         -s      shorten alias list
         -h      display this message
