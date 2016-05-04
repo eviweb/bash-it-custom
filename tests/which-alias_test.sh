@@ -51,7 +51,7 @@ libdir()
 ############## End Utilities ###############
 . $(libdir)/shell-testlib/bootstrap.sh
 
-load "$(srcdir)/plugins/which-alias-for.bash"
+load "$(srcdir)/plugins/which-alias.bash"
 ############# Custom Utilities #############
 new_stub()
 {
