@@ -1,7 +1,7 @@
 #! /bin/bash
 _waf_usage()
 {
-    echo -e "
+    printf %b "
     \e[1mUsage:\e[0m
         which_alias_for [OPTIONS] COMMAND
     \e[1mOptions:\e[0m
@@ -26,7 +26,7 @@ _waf_help()
 
 _waf_warn()
 {
-    echo -e "\e[31m$1\e[0m"
+    printf %b "\e[31m$1\e[0m"
 }
 
 _waf_fail()
@@ -65,12 +65,15 @@ which_alias_for()
     fi
 
     if which "${cmd}" &> /dev/null; then
-        if [ -n "${cmd}" ]; then
-            if ((${SHORT})); then
-                alias | grep -Poe "${pattern}" | column -c 100
-            else
-                alias | grep --color=always -Pe "${pattern}"
-            fi
+        local result
+
+        if ((${SHORT})); then
+            result="$(alias | grep -Poe "${pattern}" | column -c 100)"
+        else
+            result="$(alias | grep --color=always -Pe "${pattern}")"
+        fi
+        if [ -n "${result}" ]; then
+            printf %b "${result}"
         else
             _waf_warn "No alias found for: ${cmd}"           
         fi
