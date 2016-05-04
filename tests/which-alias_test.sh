@@ -93,14 +93,19 @@ remove_columns()
     printf %s "$1" | grep -Pe [^=] | column -t -c 1 | sed 's/\s*//g'
 }
 
+sanitize_command()
+{
+    printf %b "$(remove_style "$(remove_trailing_eof "$($@)")")"
+}
+
 sanitized_waf()
 {
-    local cmd="${@: -1}"
-    local opt="$1"
+    printf %b "$(sanitize_command "which_alias_for" $@)"
+}
 
-    [ "${cmd}" == "${opt}" ] && opt=""
-
-    printf %b "$(remove_style "$(remove_trailing_eof "$(which_alias_for ${opt} "${cmd}")")")"
+sanitized_wali()
+{
+    printf %b "$(sanitize_command "which_alias_is" $@)"
 }
 
 assertUsageDisplayed()
@@ -119,6 +124,16 @@ assertUnkownFlagError()
     local expected="unknown flag: ${flag} usage"
     local actual="$(${cmd} -${flag} | grep -iPoe "unknown flag: ${flag}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
     assertSame "${cmd} does not recognize flag: ${flag}" "${expected}" "$(remove_trailing_eof "${actual}")"
+}
+
+command_provider()
+{
+    declare -A commands=(
+        [waf]="which_alias_for"
+        [wai]="which_alias_is"
+    )
+
+    declare -p commands
 }
 ################ Unit tests ################
 testWafListsAliasesForAGivenCommand()
@@ -158,16 +173,6 @@ testWafShortenAliasListToAliasNames()
     assertSame "only alias names are displayed" "${expected}" "$(remove_columns "$(sanitized_waf -s "${cmd}")")"
 }
 
-testWafDisplayUsage()
-{
-    assertUsageDisplayed "which_alias_for"
-}
-
-testWafUnknowFlagErrors()
-{
-    assertUnkownFlagError "which_alias_for"
-}
-
 testWafNoCommandNameErrors()
 {
     local expected="command name usage"
@@ -200,10 +205,99 @@ testWafAliasNotFoundErrors()
     assertSame "alias not found" "${expected}" "$(remove_trailing_eof "${actual}")"
 }
 
+testWaliGetTheFullAliasDeclarationOfAGivenAlias()
+{
+    local cmd="cmd"
+    local alias="a"
+    local aliases=(
+        "alias a='${cmd}'"
+        "\\nalias aa='fake'"
+        "\\nalias aaba='fake'"
+    )
+    local expected="alias a='${cmd}'"
+
+    stub_alias "${aliases[@]}"
+
+    assertSame "the alias declaration is found" "$(printf %b "${expected[@]}")" "$(sanitized_wali "${alias}")"
+}
+
+testWaliGetTheShortAliasDeclarationOfAGivenAlias()
+{
+    local cmd="cmd"
+    local alias="a"
+    local aliases=(
+        "alias a='${cmd} --flag'"
+        "\\nalias aa='fake'"
+        "\\nalias aaba='fake'"
+    )
+    local expected="${cmd} --flag"
+
+    stub_alias "${aliases[@]}"
+
+    assertSame "the short declaration is found" "$(printf %b "${expected[@]}")" "$(sanitized_wali -s "${alias}")"
+}
+
+testWaliNoAliasNameErrors()
+{
+    local expected="alias name usage"
+    local actual="$(which_alias_is | grep -iPoe "alias name|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
+    assertSame "no alias name specified" "${expected}" "$(remove_trailing_eof "${actual}")"
+}
+
+testWaliAliasNotExistsErrors()
+{
+    local aliases=(
+        "alias b='fake'"
+        "\\nalias c='fake'"
+    )
+    stub_alias "${aliases[@]}"
+    local alias="not_exists"
+    local expected="alias does not exist: ${alias} usage"
+    local actual="$(which_alias_is "${alias}" | grep -iPoe "alias does not exist: ${alias}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
+    assertSame "alias does not exist" "${expected}" "$(remove_trailing_eof "${actual}")"
+}
+
+testDisplayUsage()
+{
+    local commands
+    eval "$(command_provider)"
+
+    for cmd in "${commands[@]}"; do
+        assertUsageDisplayed "${cmd}"
+    done
+}
+
+testUnknowFlagErrors()
+{
+    local commands
+    eval "$(command_provider)"
+
+    for cmd in "${commands[@]}"; do
+        assertUnkownFlagError "${cmd}"
+    done
+}
+
 testGrepColorsAreCleaned()
 {
-    which_alias_for -h &>/dev/null
-    assertNull "GREP_COLORS global variable is unset" "${GREP_COLORS}"
+    local commands
+    eval "$(command_provider)"
+
+    for cmd in "${commands[@]}"; do
+        ${cmd} &>/dev/null
+        assertNull "${cmd} unset correctly GREP_COLORS global variable" "${GREP_COLORS}"
+    done
+}
+
+testCommandAliases()
+{
+    local commands
+    eval "$(command_provider)"
+
+    for alias in "${!commands[@]}"; do
+        local command="${commands[$alias]}"
+        local pattern="alias $alias=[\'\"]${command}[\'\"]"
+        assertTrue "${alias} -> ${command}" "$(alias | grep -Poe "${pattern}")"
+    done
 }
 ###### Setup / Teardown #####
 setUp()
