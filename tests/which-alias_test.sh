@@ -201,7 +201,7 @@ testWafAliasNotFoundErrors()
     stub_alias "${aliases[@]}"
 
     local expected="no alias found for: ${cmd}"
-    local actual="$(which_alias_for "${cmd}" | grep -iPoe "no alias found for: ${cmd}" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
+    local actual="$(which_alias_for "${cmd}" | grep -iPoe "no alias found for: ${cmd}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
     assertSame "alias not found" "${expected}" "$(remove_trailing_eof "${actual}")"
 }
 
@@ -252,7 +252,7 @@ testWaliAliasNotExistsErrors()
     )
     stub_alias "${aliases[@]}"
     local alias="not_exists"
-    local expected="alias does not exist: ${alias} usage"
+    local expected="alias does not exist: ${alias}"
     local actual="$(which_alias_is "${alias}" | grep -iPoe "alias does not exist: ${alias}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
     assertSame "alias does not exist" "${expected}" "$(remove_trailing_eof "${actual}")"
 }

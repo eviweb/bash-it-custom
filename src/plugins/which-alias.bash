@@ -137,8 +137,7 @@ which_alias_is()
         fi
         printf %b "${result}"
     else
-        _waf_fail "Alias does not exist: ${alias}"
-        return $?
+        _waf_warn "Alias does not exist: ${alias}"
     fi
     _waf_docleanup
 
