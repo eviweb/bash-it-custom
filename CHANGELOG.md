@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     + new environment related aliases
 - new plugins:
     + which_alias_for (alias waf)
+- new lib:
+    + init: to initialize the shell environment before all
 
 ### 0.1.1 - 2016-04-05
 #### Changed
