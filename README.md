@@ -46,7 +46,9 @@ Customization Catalog
 ### Plugins
 * **local-bashrc**: load local initialization files from `$HOME/.bashrc.d`
 * **local-completion**: load local completion files from `$HOME/.bash_completion.d`
-* **which-alias-for**: list all related aliases to a given command
+* **which-alias**: 
+    - `which_alias_for` | `waf`: list all related aliases to a given command
+    - `which_alias_is` | `wai`: get the declaration of an alias if it exists
 
 License
 -------
