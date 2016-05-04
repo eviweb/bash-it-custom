@@ -102,6 +102,24 @@ sanitized_waf()
 
     printf %b "$(remove_style "$(remove_trailing_eof "$(which_alias_for ${opt} "${cmd}")")")"
 }
+
+assertUsageDisplayed()
+{
+    local cmd="$1"
+    local expected="usage ${cmd}"
+    local actual="$(${cmd} -h | grep -iPoe "${cmd}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
+    assertSame "${cmd} displays its help usage" "${expected}" "$(remove_trailing_eof "${actual}")"
+}
+
+assertUnkownFlagError()
+{
+    local cmd="$1"
+    local flag="$2"
+    [ -z "${flag}" ] && flag="x"
+    local expected="unknown flag: ${flag} usage"
+    local actual="$(${cmd} -${flag} | grep -iPoe "unknown flag: ${flag}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
+    assertSame "${cmd} does not recognize flag: ${flag}" "${expected}" "$(remove_trailing_eof "${actual}")"
+}
 ################ Unit tests ################
 testWafListsAliasesForAGivenCommand()
 {
@@ -142,25 +160,19 @@ testWafShortenAliasListToAliasNames()
 
 testWafDisplayUsage()
 {
-    local expected="usage which_alias_for"
-    local actual="$(which_alias_for -h | grep -iPoe 'which_alias_for|usage' | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
-    assertSame "help usage" "${expected}" "$(remove_trailing_eof "${actual}")"
+    assertUsageDisplayed "which_alias_for"
 }
 
 testWafUnknowFlagErrors()
 {
-    local flag="x"
-    local expected="unknown flag: x usage"
-    local actual="$(which_alias_for -${flag} | grep -iPoe "unknown flag: ${flag}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
-    assertSame "help usage" "${expected}" "$(remove_trailing_eof "${actual}")"
+    assertUnkownFlagError "which_alias_for"
 }
 
 testWafNoCommandNameErrors()
 {
-    local flag="x"
     local expected="command name usage"
     local actual="$(which_alias_for | grep -iPoe "command name|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
-    assertSame "help usage" "${expected}" "$(remove_trailing_eof "${actual}")"
+    assertSame "no command name specified" "${expected}" "$(remove_trailing_eof "${actual}")"
 }
 
 testWafCommandNotFoundErrors()
@@ -169,7 +181,7 @@ testWafCommandNotFoundErrors()
     local cmd="not_exists"
     local expected="command not found: ${cmd} usage"
     local actual="$(which_alias_for "${cmd}" | grep -iPoe "command not found: ${cmd}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
-    assertSame "help usage" "${expected}" "$(remove_trailing_eof "${actual}")"
+    assertSame "command not found" "${expected}" "$(remove_trailing_eof "${actual}")"
 }
 
 testWafAliasNotFoundErrors()
@@ -185,7 +197,7 @@ testWafAliasNotFoundErrors()
 
     local expected="no alias found for: ${cmd}"
     local actual="$(which_alias_for "${cmd}" | grep -iPoe "no alias found for: ${cmd}" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
-    assertSame "help usage" "${expected}" "$(remove_trailing_eof "${actual}")"
+    assertSame "alias not found" "${expected}" "$(remove_trailing_eof "${actual}")"
 }
 
 testGrepColorsAreCleaned()
