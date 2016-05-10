@@ -11,7 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     + more git aliases
 - new plugins:
     + which_alias_for (alias waf)
-    + which_alias_is (alias is)
+    + which_alias_is (alias wai)
 - new lib:
     + init: to initialize the shell environment before all
 
