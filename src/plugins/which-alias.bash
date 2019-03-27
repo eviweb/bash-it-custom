@@ -122,7 +122,7 @@ which_alias_is()
 
     local result
     local alias="$1"
-    local pattern="(?<=${alias}\=[\'\"])[^\'\"]+(?=[\'\"])"
+    local pattern="(?<=alias ${alias}\=[\'\"])[^\'\"]+(?=[\'\"])"
 
     if [ -z "${alias}" ]; then
         _waf_fail "Please specify an alias name"
