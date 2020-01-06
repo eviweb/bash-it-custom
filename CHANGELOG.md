@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     + test kitchen
     + new environment related aliases
     + more git aliases
+    + some python aliases
 - new plugins:
     + which_alias_for (alias waf)
     + which_alias_is (alias wai)
