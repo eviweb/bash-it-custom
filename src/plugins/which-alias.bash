@@ -78,7 +78,7 @@ which_alias_for()
         return $?
     fi
 
-    if which "${cmd}" &> /dev/null; then
+    if command -v "${cmd}" &> /dev/null; then
         local result
 
         if ((${SHORT})); then
