@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### fixed
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
+- fix which-alias_test.sh
 
 #### Added
 - new aliases:

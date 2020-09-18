@@ -182,7 +182,7 @@ testWafNoCommandNameErrors()
 
 testWafCommandNotFoundErrors()
 {
-    new_stub "which" "return 1"
+    new_stub "command" "return 1"
     local cmd="not_exists"
     local expected="command not found: ${cmd} usage"
     local actual="$(which_alias_for "${cmd}" | grep -iPoe "command not found: ${cmd}|usage" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ')"
@@ -302,12 +302,12 @@ testCommandAliases()
 ###### Setup / Teardown #####
 setUp()
 {
-    new_stub "which" "echo \"\$1\"; return 0"
+    new_stub "command" "echo \"\$1\"; return 0"
 }
 
 tearDown()
 {
-    unstub "alias" "which"
+    unstub "alias" "command"
 }
 ################ RUN shunit2 ################
 findShunit2()
