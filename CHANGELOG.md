@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### [Unreleased][unreleased]
 
+#### removed
+- remove alias_completion script
+
 #### fixed
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
 - fix which-alias_test.sh
