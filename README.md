@@ -39,9 +39,6 @@ Customization Catalog
 * **bash-it**: bash-it completion for the `bit` shortcut
 
 ### Custom
-* **alias_completion**: automatic alias completion    
-  _Taken from: [How can I get bash to perform tab-completion for my aliases?][topic1]_    
-  _Special thanks to: [kopischke][kopischke]_
 
 ### Plugins
 * **local-bashrc**: load local initialization files from `$HOME/.bashrc.d`

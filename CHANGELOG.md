@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### removed
 - remove alias_completion script
+- remove alias_completion reference from README
 
 #### fixed
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
