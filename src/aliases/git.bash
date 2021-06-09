@@ -1,4 +1,6 @@
 #! /bin/bash
+alias ga.="ga ."
+alias gam="ga $(gs | grep -Pe "modified:.*" | grep -Poe "(?<=modified:   )([^ ]+)" | tr "\n" " ")"
 alias gco-="git checkout -- "
 alias gcob="git checkout -b"
 alias gcamd="git commit -v --amend"
