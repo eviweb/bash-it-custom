@@ -1,5 +1,5 @@
 #! /bin/bash
-alias ga.="ga ."
+alias ga.="git add ."
 alias gam="git_add_modified"
 alias gco-="git checkout -- "
 alias gcob="git checkout -b"
