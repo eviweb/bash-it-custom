@@ -35,7 +35,7 @@
 
 - [x] Add a `check.sh` script to run the project verification workflow from one command
 - [x] Run the full test suite from `check.sh`
-- [ ] Add optional `shellcheck` support when available locally
+- [x] Add optional `shellcheck` support when available locally
 - [x] Document the local verification workflow in `README.md`
 
 ## Compatibility

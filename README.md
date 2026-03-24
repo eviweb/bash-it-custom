@@ -25,10 +25,13 @@ Verification
 ------------
 Run `./check.sh` to execute the available verification workflow.
 
-The script runs the `bats` suite from `tests/*.bats`.
+The script runs:
+- `shellcheck` when available locally
+- the `bats` suite from `tests/*.bats`
 
 Requirements:
 - `bats` must be installed locally
+- `shellcheck` is optional but recommended
 
 Customization Catalog
 ---------------------

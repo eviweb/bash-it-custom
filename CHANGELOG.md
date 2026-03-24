@@ -17,11 +17,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### Added
 - `check.sh` to run the local verification workflow
+- optional `shellcheck` support in `check.sh`
 - `bats` proof of concept for `which-alias`
 - `bats` proof of concept for `bash-it` completion
 - `bats` proof of concept for the custom loader
 - `bats` proof of concept for the installer
 - `bats` proof of concept for the updater
+- `bats` coverage for `custom.completion`
 - full `bats` coverage for the project test suite
 - test coverage for `bit` completion
 - new aliases:
