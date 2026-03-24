@@ -13,6 +13,7 @@
 - [x] Migrate a second small test file to `bats` to validate the incremental approach
 - [x] Migrate `loader_test.sh` to `bats` in parallel to validate environment setup patterns
 - [x] Migrate `installer_test.sh` to `bats` in parallel before removing `shunit2`
+- [x] Migrate `updater_test.sh` to `bats` in parallel
 - [ ] Compare `shunit2` vs `bats` on this repository with concrete findings
 - [ ] If `bats` is adopted, define a progressive migration plan instead of a big-bang rewrite
 - [ ] Keep the existing `shunit2` suite running until feature parity is reached

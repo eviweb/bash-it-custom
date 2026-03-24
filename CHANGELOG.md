@@ -1,4 +1,4 @@
-# Change Log
+oui# Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `bats` proof of concept for `bash-it` completion
 - `bats` proof of concept for the custom loader
 - `bats` proof of concept for the installer
+- `bats` proof of concept for the updater
 - test coverage for `bit` completion
 - new aliases:
     + test kitchen
