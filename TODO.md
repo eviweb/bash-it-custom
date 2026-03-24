@@ -2,7 +2,7 @@
 
 ## Test Strategy
 
-- [ ] Decide whether to migrate the test suite from `shunit2` to `bats`
+- [x] Decide to migrate the test suite from `shunit2` to `bats`
 - [ ] Document the decision criteria for test tooling:
   - maintenance cost
   - readability
@@ -15,9 +15,11 @@
 - [x] Migrate `installer_test.sh` to `bats` in parallel before removing `shunit2`
 - [x] Migrate `updater_test.sh` to `bats` in parallel
 - [ ] Compare `shunit2` vs `bats` on this repository with concrete findings
-- [ ] If `bats` is adopted, define a progressive migration plan instead of a big-bang rewrite
-- [ ] Keep the existing `shunit2` suite running until feature parity is reached
-- [ ] Remove the `shunit2` git submodule only after the migration is complete and validated
+- [x] Define a progressive migration plan instead of a big-bang rewrite
+- [x] Keep the existing `shunit2` suite running until feature parity is reached
+- [x] Remove the `shunit2` git submodule only after the migration is complete and validated
+- [x] Remove the `shell-testlib` git submodule from the project test workflow after migration
+- [x] Remove the legacy `shunit2` test files once `bats` coverage is complete
 
 ## Test Coverage
 
@@ -31,9 +33,9 @@
 ## Tooling
 
 - [x] Add a `check.sh` script to run the project verification workflow from one command
-- [ ] Run the full test suite from `check.sh`
+- [x] Run the full test suite from `check.sh`
 - [ ] Add optional `shellcheck` support when available locally
-- [ ] Document the local verification workflow in `README.md`
+- [x] Document the local verification workflow in `README.md`
 
 ## Compatibility
 

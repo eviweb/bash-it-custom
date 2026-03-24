@@ -11,7 +11,7 @@ For example, run `exec bash -l` or `reload`.
 > **Note**  
 > For development, clone the repository with `--recursive`:  
 > `git clone --recursive https://github.com/eviweb/bash-it-custom`  
-> Then run the test suite with `bash-it-custom/tests/testsuite.sh`.
+> Then run the test suite with `bash-it-custom/check.sh`.
 
 Update
 ------
@@ -25,9 +25,10 @@ Verification
 ------------
 Run `./check.sh` to execute the available verification workflow.
 
-The script runs:
-- the `shunit2` suite with `tests/testsuite.sh`
-- the `bats` suite when `bats` is available locally
+The script runs the `bats` suite from `tests/*.bats`.
+
+Requirements:
+- `bats` must be installed locally
 
 Customization Catalog
 ---------------------

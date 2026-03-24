@@ -1,4 +1,4 @@
-oui# Change Log
+# Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Removed
 - remove alias_completion script
 - remove alias_completion reference from README
+- remove `shunit2` and `shell-testlib` from the project test workflow
 
 #### Fixed
 - make `loadCustomFrom` succeed on empty directories and return instead of exiting on missing paths
@@ -21,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `bats` proof of concept for the custom loader
 - `bats` proof of concept for the installer
 - `bats` proof of concept for the updater
+- full `bats` coverage for the project test suite
 - test coverage for `bit` completion
 - new aliases:
     + test kitchen
