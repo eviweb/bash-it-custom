@@ -11,6 +11,7 @@
   - compatibility with current CI and local workflows
 - [x] Run a small proof of concept by migrating one existing test file to `bats`
 - [x] Migrate a second small test file to `bats` to validate the incremental approach
+- [x] Migrate `loader_test.sh` to `bats` in parallel to validate environment setup patterns
 - [ ] Compare `shunit2` vs `bats` on this repository with concrete findings
 - [ ] If `bats` is adopted, define a progressive migration plan instead of a big-bang rewrite
 - [ ] Keep the existing `shunit2` suite running until feature parity is reached
