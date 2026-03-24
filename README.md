@@ -26,6 +26,11 @@ Dry Run
 Use `./install.sh -n` to preview install actions without modifying `$BASH_IT`.
 Use `./install.sh -n -u` to preview uninstall actions.
 
+Installer Output
+----------------
+`install.sh` now prints explicit action messages for install, update, uninstall,
+dry-run operations, and unmanaged links that are intentionally preserved.
+
 Verification
 ------------
 Run `./check.sh` to execute the available verification workflow.

@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `check.sh` to run the local verification workflow
 - optional `shellcheck` support in `check.sh`
 - `install.sh -n` dry-run mode for install and uninstall actions
+- clearer `install.sh` action messages for install, update, uninstall, and skipped unmanaged links
 - `bats` proof of concept for `which-alias`
 - `bats` proof of concept for `bash-it` completion
 - `bats` proof of concept for the custom loader

@@ -2,6 +2,11 @@
 UNINSTALL=0
 DRY_RUN=0
 
+log_action()
+{
+    echo "$1"
+}
+
 # get bash it custom main directory
 bash_it_custom_maindir()
 {
@@ -80,6 +85,13 @@ unlink_file()
     fi
 }
 
+skip_unmanaged_file()
+{
+    local target_file="$1"
+
+    echo "Skipping unmanaged link ${target_file}"
+}
+
 # check bash it installation dir
 checkBashItDir()
 {
@@ -117,6 +129,12 @@ install()
     local links
     eval "$(get_links)"
 
+    if ((${DRY_RUN})); then
+        log_action "Dry run: install into ${BASH_IT}"
+    else
+        log_action "Installing bash-it-custom into ${BASH_IT}"
+    fi
+
     for link in "${!links[@]}"; do
         link_file "$(bash_it_custom_maindir)/src/${link}" "${BASH_IT}/${links[${link}]}/${link}"
     done
@@ -130,9 +148,19 @@ uninstall()
     local links
     eval "$(get_links)"
 
+    if ((${DRY_RUN})); then
+        log_action "Dry run: uninstall from ${BASH_IT}"
+    else
+        log_action "Uninstalling bash-it-custom from ${BASH_IT}"
+    fi
+
     for link in "${!links[@]}"; do
         local file="${BASH_IT}/${links[${link}]}/${link}"
-        isUnlinkable "${file}" && unlink_file "${file}"
+        if isUnlinkable "${file}"; then
+            unlink_file "${file}"
+        elif [ -h "${file}" ]; then
+            skip_unmanaged_file "${file}"
+        fi
     done
 
     return 0
@@ -142,6 +170,12 @@ uninstall()
 update()
 {
     local updates=( $(get_updates) )
+
+    if ((${DRY_RUN})); then
+        log_action "Dry run: update in ${BASH_IT}"
+    else
+        log_action "Updating bash-it-custom in ${BASH_IT}"
+    fi
 
     for update in "${updates[@]}"; do
         apply_update "$(bash_it_custom_updatesdir)/${update}"

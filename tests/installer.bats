@@ -24,6 +24,7 @@ run_installer() {
   run_installer -n
 
   [ "$status" -eq 0 ]
+  [[ "$output" == *"Dry run: install"* ]]
   [[ "$output" == *"Would link"* ]]
 
   while IFS= read -r file; do
@@ -35,6 +36,7 @@ run_installer() {
   run_installer
 
   [ "$status" -eq 0 ]
+  [[ "$output" == *"Installing bash-it-custom into"* ]]
 
   while IFS= read -r file; do
     [ -L "$file" ]
@@ -49,6 +51,7 @@ run_installer() {
   run_installer -u
 
   [ "$status" -eq 0 ]
+  [[ "$output" == *"Uninstalling bash-it-custom from"* ]]
 
   while IFS= read -r file; do
     [ ! -L "$file" ]
@@ -63,6 +66,7 @@ run_installer() {
   run_installer -u
 
   [ "$status" -eq 0 ]
+  [[ "$output" == *"Skipping unmanaged link"* ]]
   [ -L "$BASH_IT/aliases/custom.aliases.bash" ]
 }
 
@@ -73,6 +77,7 @@ run_installer() {
   run_installer -n -u
 
   [ "$status" -eq 0 ]
+  [[ "$output" == *"Dry run: uninstall"* ]]
   [[ "$output" == *"Would unlink"* ]]
 
   while IFS= read -r file; do
@@ -111,12 +116,21 @@ run_installer() {
   run_installer
 
   [ "$status" -eq 0 ]
-  [ -z "$output" ]
+  [[ "$output" == *"Installing bash-it-custom into"* ]]
 
   while IFS= read -r file; do
     [ -L "$file" ]
     [ -e "$(readlink -f "$file")" ]
   done < <(linked_files)
+}
+
+@test "install.sh update reports update actions" {
+  ln -s "$REPO_ROOT/src/custom.bash" "$BASH_IT/lib/custom.bash"
+
+  run_installer -U
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Updating bash-it-custom in"* ]]
 }
 
 @test "install.sh displays usage" {
