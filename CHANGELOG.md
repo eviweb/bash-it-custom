@@ -4,15 +4,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### [Unreleased][unreleased]
 
-#### removed
+#### Removed
 - remove alias_completion script
 - remove alias_completion reference from README
 
-#### fixed
+#### Fixed
+- reuse the `bash-it` completion definition for the `bit` alias
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
 - fix which-alias_test.sh
 
 #### Added
+- test coverage for `bit` completion
 - new aliases:
     + test kitchen
     + new environment related aliases
