@@ -21,6 +21,14 @@ Uninstallation
 --------------
 From the `./bash-it-custom` installation directory, run `./install.sh -u`.
 
+Verification
+------------
+Run `./check.sh` to execute the available verification workflow.
+
+The script runs:
+- the `shunit2` suite with `tests/testsuite.sh`
+- the `bats` suite when `bats` is available locally
+
 Customization Catalog
 ---------------------
 ### Aliases

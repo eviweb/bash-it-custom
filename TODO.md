@@ -9,7 +9,7 @@
   - portability on Ubuntu
   - dependency footprint
   - compatibility with current CI and local workflows
-- [ ] Run a small proof of concept by migrating one existing test file to `bats`
+- [x] Run a small proof of concept by migrating one existing test file to `bats`
 - [ ] Compare `shunit2` vs `bats` on this repository with concrete findings
 - [ ] If `bats` is adopted, define a progressive migration plan instead of a big-bang rewrite
 - [ ] Keep the existing `shunit2` suite running until feature parity is reached
@@ -26,7 +26,7 @@
 
 ## Tooling
 
-- [ ] Add a `check.sh` script to run the project verification workflow from one command
+- [x] Add a `check.sh` script to run the project verification workflow from one command
 - [ ] Run the full test suite from `check.sh`
 - [ ] Add optional `shellcheck` support when available locally
 - [ ] Document the local verification workflow in `README.md`

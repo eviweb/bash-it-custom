@@ -14,6 +14,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fix which-alias_test.sh
 
 #### Added
+- `check.sh` to run the local verification workflow
+- `bats` proof of concept for `which-alias`
 - test coverage for `bit` completion
 - new aliases:
     + test kitchen
