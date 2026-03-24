@@ -17,9 +17,10 @@
 - [ ] Compare `shunit2` vs `bats` on this repository with concrete findings
 - [x] Define a progressive migration plan instead of a big-bang rewrite
 - [x] Keep the existing `shunit2` suite running until feature parity is reached
-- [x] Remove the `shunit2` git submodule only after the migration is complete and validated
+- [x] Remove the `shunit2` git submodule after the migration is complete and validated
 - [x] Remove the `shell-testlib` git submodule from the project test workflow after migration
 - [x] Remove the legacy `shunit2` test files once `bats` coverage is complete
+- [x] Run the project test workflow exclusively with `bats`
 
 ## Test Coverage
 
@@ -46,7 +47,7 @@
 
 ## Documentation
 
-- [ ] Keep `README.md`, `CHANGELOG.md`, and `VERSION` aligned for each release
+- [x] Keep `README.md`, `CHANGELOG.md`, and `VERSION` aligned for the current development state
 - [ ] Add a short project scope section to clarify what belongs in this repository
 - [ ] Document the installation, update, and uninstall expectations more explicitly
 

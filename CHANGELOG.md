@@ -13,7 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - make `loadCustomFrom` succeed on empty directories and return instead of exiting on missing paths
 - reuse the `bash-it` completion definition for the `bit` alias
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
-- fix which-alias_test.sh
+- fix legacy `which-alias` test behavior and migrate coverage to `bats`
 
 #### Added
 - `check.sh` to run the local verification workflow

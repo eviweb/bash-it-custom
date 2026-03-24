@@ -9,8 +9,8 @@ Once the installation is complete, reload your Bash session.
 For example, run `exec bash -l` or `reload`.
 
 > **Note**  
-> For development, clone the repository with `--recursive`:  
-> `git clone --recursive https://github.com/eviweb/bash-it-custom`  
+> For development, clone the repository locally:  
+> `git clone https://github.com/eviweb/bash-it-custom`  
 > Then run the test suite with `bash-it-custom/check.sh`.
 
 Update
