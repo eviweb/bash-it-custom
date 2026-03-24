@@ -90,7 +90,7 @@ remove_trailing_eof()
 
 remove_columns()
 {
-    printf %s "$1" | grep -Pe [^=] | column -t -c 1 | sed 's/\s*//g'
+    printf %s "$1" | tr -d '[:space:]'
 }
 
 sanitize_command()
