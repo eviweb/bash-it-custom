@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Added
 - `check.sh` to run the local verification workflow
 - optional `shellcheck` support in `check.sh`
+- exclude generated `rustup` completion code from `shellcheck`
 - `install.sh -n` dry-run mode for install and uninstall actions
 - clearer `install.sh` action messages for install, update, uninstall, and skipped unmanaged links
 - `bats` proof of concept for `which-alias`

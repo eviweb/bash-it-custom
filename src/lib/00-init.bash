@@ -2,7 +2,7 @@ safe_append_prompt_command()
 {
     if [[ -n $1 ]] && [[ -n $PROMPT_COMMAND ]]; then
         case $PROMPT_COMMAND in
-            $1) ;;
+            "$1") ;;
             *) PROMPT_COMMAND="$1;$PROMPT_COMMAND";;
         esac
     elif [[ -n $1 ]]; then

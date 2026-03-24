@@ -9,7 +9,12 @@ if ! command -v bats >/dev/null 2>&1; then
 fi
 
 if command -v shellcheck >/dev/null 2>&1; then
-  mapfile -t shell_files < <(find "$ROOT_DIR" -path "$ROOT_DIR/lib" -prune -o -type f \( -name '*.bash' -o -name '*.sh' \) -print)
+  mapfile -t shell_files < <(
+    find "$ROOT_DIR" \
+      -path "$ROOT_DIR/lib" -prune -o \
+      -path "$ROOT_DIR/src/completion/rustup.bash" -prune -o \
+      -type f \( -name '*.bash' -o -name '*.sh' \) -print
+  )
   echo "==> Running shellcheck"
   shellcheck "${shell_files[@]}"
 else

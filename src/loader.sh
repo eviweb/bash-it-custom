@@ -17,7 +17,10 @@ loadCustomFrom()
     shopt -s nullglob
 
     for custom in "${customdir}"/*; do
-        [[ ${custom} =~ \.bash ]] && . "${custom}"
+        if [[ ${custom} =~ \.bash ]]; then
+            # shellcheck source=/dev/null
+            . "${custom}"
+        fi
     done
 
     if [ "${nullglob_was_set}" -eq 0 ]; then

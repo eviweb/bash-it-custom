@@ -43,7 +43,7 @@ _waf_warn()
 }
 
 _waf_fail()
-{    
+{
     _waf_warn "$1"
     ${_waf_usage}
     _waf_docleanup
@@ -58,7 +58,7 @@ which_alias_for()
 
     OPTIND=1
     export GREP_COLORS='mt=01;95'
-    
+
     while getopts ${OPTIONS} flag; do
         case $flag in
             s)  SHORT=1;;
@@ -68,7 +68,7 @@ which_alias_for()
                 return $?;;
         esac
     done
-    shift $(($OPTIND - 1))
+    shift $((OPTIND - 1))
 
     local cmd="$1"
     local pattern="[^[:space:]]+(?=\=[\"\']${cmd})"
@@ -81,7 +81,7 @@ which_alias_for()
     if command -v "${cmd}" &> /dev/null; then
         local result
 
-        if ((${SHORT})); then
+        if ((SHORT)); then
             result="$(alias | grep -Poe "${pattern}" | column -c 100)"
         else
             result="$(alias | grep --color=always -Pe "${pattern}")"
@@ -89,7 +89,7 @@ which_alias_for()
         if [ -n "${result}" ]; then
             printf %b "${result}"
         else
-            _waf_warn "No alias found for: ${cmd}"           
+            _waf_warn "No alias found for: ${cmd}"
         fi
     else
         _waf_fail "Command not found: ${cmd}"
@@ -108,7 +108,7 @@ which_alias_is()
 
     OPTIND=1
     export GREP_COLORS='mt=01;95'
-    
+
     while getopts ${OPTIONS} flag; do
         case $flag in
             s)  SHORT=1;;
@@ -118,7 +118,7 @@ which_alias_is()
                 return $?;;
         esac
     done
-    shift $(($OPTIND - 1))
+    shift $((OPTIND - 1))
 
     local result
     local alias="$1"
@@ -129,10 +129,10 @@ which_alias_is()
         return $?
     fi
 
-    read result < <(alias | grep --color=always -Pe "${pattern}")
+    read -r result < <(alias | grep --color=always -Pe "${pattern}")
 
-    if [ "$?" == "0" ]; then
-        if ((${SHORT})); then
+    if alias | grep --color=always -Pe "${pattern}" >/dev/null; then
+        if ((SHORT)); then
             result="$(printf %b "${result}" | grep -Poe "(?<=[\'\"])[^\'\"]+(?=[\'\"])")"
         fi
         printf %b "${result}"

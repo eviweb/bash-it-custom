@@ -43,6 +43,9 @@ Requirements:
 - `bats` must be installed locally
 - `shellcheck` is optional but recommended
 
+Notes:
+- generated completion code such as `src/completion/rustup.bash` is excluded from `shellcheck`
+
 Customization Catalog
 ---------------------
 ### Aliases

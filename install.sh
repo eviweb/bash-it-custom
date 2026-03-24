@@ -10,7 +10,7 @@ log_action()
 # get bash it custom main directory
 bash_it_custom_maindir()
 {
-    echo "$(dirname $(readlink -f ${BASH_SOURCE}))"
+    dirname "$(readlink -f "${BASH_SOURCE[0]}")"
 }
 
 # get bash it custom updates directory
@@ -52,8 +52,10 @@ get_links()
 isUnlinkable()
 {
     local target="$1"
-    local realpath="$(readlink -f "$target")"
+    local realpath
     local unlinkable=1
+
+    realpath="$(readlink -f "$target")"
 
     [ -h "${target}" ] &&
         (echo "${realpath}" | grep "$(bash_it_custom_maindir)" &> /dev/null) &&
@@ -67,7 +69,7 @@ link_file()
     local source_file="$1"
     local target_file="$2"
 
-    if ((${DRY_RUN})); then
+    if ((DRY_RUN)); then
         echo "Would link ${target_file} -> ${source_file}"
     else
         ln -fs "${source_file}" "${target_file}"
@@ -78,7 +80,7 @@ unlink_file()
 {
     local target_file="$1"
 
-    if ((${DRY_RUN})); then
+    if ((DRY_RUN)); then
         echo "Would unlink ${target_file}"
     else
         unlink "${target_file}"
@@ -108,7 +110,7 @@ checkBashItDir()
 # get updates
 get_updates()
 {
-    ls -v $(bash_it_custom_updatesdir)
+    ls -v "$(bash_it_custom_updatesdir)"
 }
 
 # apply update
@@ -119,6 +121,7 @@ apply_update()
     local update_pattern="${filename%.*}"
     update="update_${update_pattern//./}"
 
+    # shellcheck source=/dev/null
     . "${update_file}"
     ${update}
 }
@@ -129,7 +132,7 @@ install()
     local links
     eval "$(get_links)"
 
-    if ((${DRY_RUN})); then
+    if ((DRY_RUN)); then
         log_action "Dry run: install into ${BASH_IT}"
     else
         log_action "Installing bash-it-custom into ${BASH_IT}"
@@ -148,7 +151,7 @@ uninstall()
     local links
     eval "$(get_links)"
 
-    if ((${DRY_RUN})); then
+    if ((DRY_RUN)); then
         log_action "Dry run: uninstall from ${BASH_IT}"
     else
         log_action "Uninstalling bash-it-custom from ${BASH_IT}"
@@ -169,9 +172,11 @@ uninstall()
 # update
 update()
 {
-    local updates=( $(get_updates) )
+    local updates=()
 
-    if ((${DRY_RUN})); then
+    mapfile -t updates < <(get_updates)
+
+    if ((DRY_RUN)); then
         log_action "Dry run: update in ${BASH_IT}"
     else
         log_action "Updating bash-it-custom in ${BASH_IT}"
@@ -196,11 +201,11 @@ do
         *) usage && exit 1;;
     esac
 done
-shift $(($OPTIND - 1 ))
+shift $((OPTIND - 1))
 
-if ((${UNINSTALL})); then
+if ((UNINSTALL)); then
     checkBashItDir && uninstall
-elif ((${UPDATE})); then
+elif ((UPDATE)); then
     checkBashItDir && update
 else
     checkBashItDir && install

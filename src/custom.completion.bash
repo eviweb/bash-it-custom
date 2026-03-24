@@ -1,10 +1,11 @@
 #! /bin/bash
 custom_srcdir()
 {
-    echo "$(dirname $(readlink -f ${BASH_SOURCE}))"
+    dirname "$(readlink -f "${BASH_SOURCE[0]}")"
 }
 
-. $(custom_srcdir)/loader.sh
+# shellcheck source=src/loader.sh
+. "$(custom_srcdir)/loader.sh"
 
 loadCustomFrom "$(custom_srcdir)/completion"
 if [ -d "${HOME}/.bash_completion.d" ]; then
