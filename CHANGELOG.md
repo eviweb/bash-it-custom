@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### Fixed
 - make `loadCustomFrom` succeed on empty directories and return instead of exiting on missing paths
+- make `install.sh uninstall` succeed when external links are intentionally preserved
 - reuse the `bash-it` completion definition for the `bit` alias
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
 - fix legacy `which-alias` test behavior and migrate coverage to `bats`
@@ -18,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Added
 - `check.sh` to run the local verification workflow
 - optional `shellcheck` support in `check.sh`
+- `install.sh -n` dry-run mode for install and uninstall actions
 - `bats` proof of concept for `which-alias`
 - `bats` proof of concept for `bash-it` completion
 - `bats` proof of concept for the custom loader

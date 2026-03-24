@@ -21,6 +21,11 @@ Uninstallation
 --------------
 From the `./bash-it-custom` installation directory, run `./install.sh -u`.
 
+Dry Run
+-------
+Use `./install.sh -n` to preview install actions without modifying `$BASH_IT`.
+Use `./install.sh -n -u` to preview uninstall actions.
+
 Verification
 ------------
 Run `./check.sh` to execute the available verification workflow.

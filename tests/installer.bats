@@ -20,6 +20,17 @@ run_installer() {
   run bash "$REPO_ROOT/install.sh" "$@"
 }
 
+@test "install.sh dry-run reports install actions without creating links" {
+  run_installer -n
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Would link"* ]]
+
+  while IFS= read -r file; do
+    [ ! -e "$file" ]
+  done < <(linked_files)
+}
+
 @test "install.sh installs the custom entry points" {
   run_installer
 
@@ -51,7 +62,22 @@ run_installer() {
 
   run_installer -u
 
+  [ "$status" -eq 0 ]
   [ -L "$BASH_IT/aliases/custom.aliases.bash" ]
+}
+
+@test "install.sh dry-run reports uninstall actions without removing managed links" {
+  run_installer
+  [ "$status" -eq 0 ]
+
+  run_installer -n -u
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Would unlink"* ]]
+
+  while IFS= read -r file; do
+    [ -L "$file" ]
+  done < <(linked_files)
 }
 
 @test "install.sh fails when BASH_IT is unset" {

@@ -1,5 +1,6 @@
 #! /bin/bash
 UNINSTALL=0
+DRY_RUN=0
 
 # get bash it custom main directory
 bash_it_custom_maindir()
@@ -19,6 +20,7 @@ usage() {
     Usage:
         ./install.sh [OPTIONS]
     Options:
+        -n      dry run, print actions without modifying \$BASH_IT
         -U      update packages in \$BASH_IT
         -u      uninstall bash-it-custom package from \$BASH_IT
         -h      display this message
@@ -44,14 +46,38 @@ get_links()
 # check whether a link can be removed
 isUnlinkable()
 {
-    local realpath="$(readlink -f $1)"
+    local target="$1"
+    local realpath="$(readlink -f "$target")"
     local unlinkable=1
 
-    [ -h ${file} ] && 
+    [ -h "${target}" ] &&
         (echo "${realpath}" | grep "$(bash_it_custom_maindir)" &> /dev/null) &&
         unlinkable=0
 
     return ${unlinkable}
+}
+
+link_file()
+{
+    local source_file="$1"
+    local target_file="$2"
+
+    if ((${DRY_RUN})); then
+        echo "Would link ${target_file} -> ${source_file}"
+    else
+        ln -fs "${source_file}" "${target_file}"
+    fi
+}
+
+unlink_file()
+{
+    local target_file="$1"
+
+    if ((${DRY_RUN})); then
+        echo "Would unlink ${target_file}"
+    else
+        unlink "${target_file}"
+    fi
 }
 
 # check bash it installation dir
@@ -89,23 +115,27 @@ apply_update()
 install()
 {
     local links
-    eval $(get_links)
+    eval "$(get_links)"
 
     for link in "${!links[@]}"; do
-        ln -fs $(bash_it_custom_maindir)/src/${link} ${BASH_IT}/${links[${link}]}/${link}
+        link_file "$(bash_it_custom_maindir)/src/${link}" "${BASH_IT}/${links[${link}]}/${link}"
     done
+
+    return 0
 }
 
 # uninstall
 uninstall()
 {
     local links
-    eval $(get_links)
+    eval "$(get_links)"
 
     for link in "${!links[@]}"; do
         local file="${BASH_IT}/${links[${link}]}/${link}"
-        isUnlinkable "${file}" && unlink ${file}
+        isUnlinkable "${file}" && unlink_file "${file}"
     done
+
+    return 0
 }
 
 # update
@@ -117,13 +147,16 @@ update()
         apply_update "$(bash_it_custom_updatesdir)/${update}"
     done
     install
+
+    return 0
 }
 
-OPTIONS=":huU"
+OPTIONS=":hnuU"
 # get command line options
 while getopts $OPTIONS option
 do
     case $option in
+        n) DRY_RUN=1;;
         u) UNINSTALL=1;;
         U) UPDATE=1;;
         *) usage && exit 1;;

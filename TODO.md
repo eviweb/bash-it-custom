@@ -53,6 +53,6 @@
 
 ## Installation UX
 
-- [ ] Add a dry-run mode to `install.sh`
+- [x] Add a dry-run mode to `install.sh`
 - [ ] Print clearer messages for install, update, and uninstall operations
 - [ ] Validate edge cases around invalid or partial `BASH_IT` installations
