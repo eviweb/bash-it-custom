@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `bats` proof of concept for the installer
 - `bats` proof of concept for the updater
 - `bats` coverage for `custom.completion`
+- `bats` coverage for `custom.aliases`, `custom.lib`, and `custom.plugins`
 - full `bats` coverage for the project test suite
 - test coverage for `bit` completion
 - new aliases:
