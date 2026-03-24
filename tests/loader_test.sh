@@ -76,7 +76,7 @@ testLoader()
 testLoaderShouldComplainIfTheGivenLocationDoesNotExists()
 {
     local dir="/non/existing/path"
-    local expected="The given location '${dir}' does not exist, abort;"    
+    local expected="The given location '${dir}' does not exist, abort;"
 
     assertFalse "The load process is aborted" "loadCustomFrom ${dir} > ${FSTDOUT} 2> ${FSTDERR}"
     assertNull "No message in the standard output" "$(cat ${FSTDOUT})"
@@ -85,14 +85,14 @@ testLoaderShouldComplainIfTheGivenLocationDoesNotExists()
 
 testLoaderShouldNotComplainIfTheLocationIsEmpty()
 {
-    loadCustomFrom "${HOME}"
+    assertTrue "The load process succeeds" "loadCustomFrom ${HOME} > ${FSTDOUT} 2> ${FSTDERR}"
     assertNull "No message in the standard output" "$(cat ${FSTDOUT})"
     assertNull "No message in the standard error" "$(cat ${FSTDERR})"
 }
 
 ###### Setup / Teardown #####
 setUp()
-{    
+{
     OLDPWD="$PWD"
     prepareTestEnvironment
 }

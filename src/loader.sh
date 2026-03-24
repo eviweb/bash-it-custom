@@ -5,13 +5,24 @@
 loadCustomFrom()
 {
     local customdir="$1"
+    local custom
+    local nullglob_was_set=0
 
     if [ ! -e "${customdir}" ]; then
         echo "The given location '${customdir}' does not exist, abort;" >&2
-        exit 1
+        return 1
     fi
 
-    for custom in ${customdir}/*; do
+    shopt -q nullglob && nullglob_was_set=1
+    shopt -s nullglob
+
+    for custom in "${customdir}"/*; do
         [[ ${custom} =~ \.bash ]] && . "${custom}"
     done
+
+    if [ "${nullglob_was_set}" -eq 0 ]; then
+        shopt -u nullglob
+    fi
+
+    return 0
 }

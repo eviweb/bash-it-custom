@@ -52,7 +52,7 @@ run_loader() {
   run bash -lc '
     export HOME="'"$HOME"'"
     source "'"$REPO_ROOT"'/src/loader.sh"
-    loadCustomFrom "$HOME" || true
+    loadCustomFrom "$HOME"
   '
 
   [ "$status" -eq 0 ]

@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - remove alias_completion reference from README
 
 #### Fixed
+- make `loadCustomFrom` succeed on empty directories and return instead of exiting on missing paths
 - reuse the `bash-it` completion definition for the `bit` alias
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
 - fix which-alias_test.sh
@@ -18,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `bats` proof of concept for `which-alias`
 - `bats` proof of concept for `bash-it` completion
 - `bats` proof of concept for the custom loader
+- `bats` proof of concept for the installer
 - test coverage for `bit` completion
 - new aliases:
     + test kitchen
