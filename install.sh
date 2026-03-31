@@ -48,6 +48,11 @@ get_links()
     declare -p links
 }
 
+required_component_dirs()
+{
+    printf '%s\n' aliases completion custom lib plugins
+}
+
 # check whether a link can be removed
 isUnlinkable()
 {
@@ -97,6 +102,8 @@ skip_unmanaged_file()
 # check bash it installation dir
 checkBashItDir()
 {
+    local component_dir
+
     if [ -z "${BASH_IT}" ]; then
         echo "No bash-it installation found, abort." >&2
         exit 1
@@ -105,6 +112,13 @@ checkBashItDir()
         echo "Invalid path for bash-it: ${BASH_IT}, abort." >&2
         exit 1
     fi
+
+    while IFS= read -r component_dir; do
+        if [ ! -d "${BASH_IT}/${component_dir}" ]; then
+            echo "Missing bash-it component directory: ${BASH_IT}/${component_dir}, abort." >&2
+            exit 1
+        fi
+    done < <(required_component_dirs)
 }
 
 # get updates

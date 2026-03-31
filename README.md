@@ -31,6 +31,11 @@ Installer Output
 `install.sh` now prints explicit action messages for install, update, uninstall,
 dry-run operations, and unmanaged links that are intentionally preserved.
 
+Installer Validation
+--------------------
+`install.sh` validates that `$BASH_IT` exists and contains the required
+component directories: `aliases`, `completion`, `custom`, `lib`, and `plugins`.
+
 Verification
 ------------
 Run `./check.sh` to execute the available verification workflow.

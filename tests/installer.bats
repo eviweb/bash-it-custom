@@ -20,6 +20,10 @@ run_installer() {
   run bash "$REPO_ROOT/install.sh" "$@"
 }
 
+remove_bash_it_component_dir() {
+  rm -rf "$BASH_IT/$1"
+}
+
 @test "install.sh dry-run reports install actions without creating links" {
   run_installer -n
 
@@ -107,6 +111,24 @@ run_installer() {
 
   [ "$status" -eq 1 ]
   [ "$output" = "Invalid path for bash-it: /wrong/path, abort." ]
+}
+
+@test "install.sh fails when a required BASH_IT component directory is missing" {
+  remove_bash_it_component_dir "plugins"
+
+  run_installer
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "Missing bash-it component directory: $BASH_IT/plugins, abort." ]
+}
+
+@test "install.sh dry-run also fails when a required BASH_IT component directory is missing" {
+  remove_bash_it_component_dir "plugins"
+
+  run_installer -n
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "Missing bash-it component directory: $BASH_IT/plugins, abort." ]
 }
 
 @test "install.sh can run twice" {
