@@ -4,7 +4,7 @@ git_add_modified()
 {
     local modified_files
 
-    modified_files="$(gs | grep -Pe "modified:.*" | grep -Poe "(?<=modified:   )([^ ]+)" | tr "\n" " ")"
+    modified_files="$(gs | awk '/modified:/ { print $2 }' | tr '\n' ' ')"
     # shellcheck disable=SC2086
     ga ${modified_files}
 }

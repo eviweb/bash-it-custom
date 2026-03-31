@@ -30,6 +30,37 @@ _waf_docleanup()
     unset GREP_COLORS
 }
 
+_alias_parse_line()
+{
+    local line="$1"
+    local name_ref="$2"
+    local body_ref="$3"
+    local parsed_name parsed_body quote
+
+    line="${line%"${line##*[![:space:]]}"}"
+    [[ "${line}" == alias\ *=* ]] || return 1
+
+    parsed_name="${line#alias }"
+    parsed_name="${parsed_name%%=*}"
+    parsed_body="${line#*=}"
+    quote="${parsed_body:0:1}"
+    parsed_body="${parsed_body:1}"
+    parsed_body="${parsed_body%"${quote}"}"
+
+    printf -v "${name_ref}" '%s' "${parsed_name}"
+    printf -v "${body_ref}" '%s' "${parsed_body}"
+
+    return 0
+}
+
+_alias_body_matches_command()
+{
+    local body="$1"
+    local cmd="$2"
+
+    [[ "${body}" == "${cmd}" || "${body}" == "${cmd} "* ]]
+}
+
 _waf_help()
 {
     ${_waf_usage}
@@ -71,21 +102,26 @@ which_alias_for()
     shift $((OPTIND - 1))
 
     local cmd="$1"
-    local pattern="[^[:space:]]+(?=\=[\"\']${cmd})"
-
     if [ -z "${cmd}" ]; then
         _waf_fail "Please specify a command name"
         return $?
     fi
 
     if command -v "${cmd}" &> /dev/null; then
-        local result
+        local line name body result=""
 
-        if ((SHORT)); then
-            result="$(alias | grep -Poe "${pattern}" | column -c 100)"
-        else
-            result="$(alias | grep --color=always -Pe "${pattern}")"
-        fi
+        while IFS= read -r line; do
+            _alias_parse_line "${line}" name body || continue
+            _alias_body_matches_command "${body}" "${cmd}" || continue
+
+            if ((SHORT)); then
+                result+="${name}"$'\n'
+            else
+                result+="${line}"$'\n'
+            fi
+        done < <(alias)
+
+        result="${result%$'\n'}"
         if [ -n "${result}" ]; then
             printf %b "${result}"
         else
@@ -120,25 +156,29 @@ which_alias_is()
     done
     shift $((OPTIND - 1))
 
-    local result
+    local line result name body
     local alias="$1"
-    local pattern="(?<=alias ${alias}\=[\'\"])[^\'\"]+(?=[\'\"])"
 
     if [ -z "${alias}" ]; then
         _waf_fail "Please specify an alias name"
         return $?
     fi
 
-    read -r result < <(alias | grep --color=always -Pe "${pattern}")
+    while IFS= read -r line; do
+        _alias_parse_line "${line}" name body || continue
+        [ "${name}" = "${alias}" ] || continue
 
-    if alias | grep --color=always -Pe "${pattern}" >/dev/null; then
         if ((SHORT)); then
-            result="$(printf %b "${result}" | grep -Poe "(?<=[\'\"])[^\'\"]+(?=[\'\"])")"
+            result="${body}"
+        else
+            result="${line}"
         fi
         printf %b "${result}"
-    else
-        _waf_warn "Alias does not exist: ${alias}"
-    fi
+        _waf_docleanup
+        return 0
+    done < <(alias)
+
+    _waf_warn "Alias does not exist: ${alias}"
     _waf_docleanup
 
     return 0
