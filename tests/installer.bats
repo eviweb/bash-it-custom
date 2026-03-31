@@ -56,7 +56,7 @@ make_managed_target_directory() {
 
   while IFS= read -r file; do
     [ -L "$file" ]
-    [ -e "$(readlink -f "$file")" ]
+    [ -e "$file" ]
   done < <(linked_files)
 }
 
@@ -67,7 +67,7 @@ make_managed_target_directory() {
 
   [ "$status" -eq 0 ]
   [ -L "$BASH_IT/aliases/custom.aliases.bash" ]
-  [ "$(readlink -f "$BASH_IT/aliases/custom.aliases.bash")" = "$REPO_ROOT/src/custom.aliases.bash" ]
+  [ "$(readlink "$BASH_IT/aliases/custom.aliases.bash")" = "$REPO_ROOT/src/custom.aliases.bash" ]
 }
 
 @test "install.sh dry-run does not replace an existing regular file" {
@@ -229,7 +229,7 @@ make_managed_target_directory() {
 
   while IFS= read -r file; do
     [ -L "$file" ]
-    [ -e "$(readlink -f "$file")" ]
+    [ -e "$file" ]
   done < <(linked_files)
 }
 

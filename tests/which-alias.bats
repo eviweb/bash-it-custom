@@ -15,7 +15,7 @@ setup() {
 }
 
 strip_ansi() {
-  printf '%b' "$1" | sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mK]//g'
+  printf '%b' "$1" | sed -E 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mK]//g'
 }
 
 trim_trailing_eof() {

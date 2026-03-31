@@ -30,7 +30,7 @@ run_installer() {
 
   while IFS= read -r file; do
     [ -L "$file" ]
-    [ -e "$(readlink -f "$file")" ]
+    [ -e "$file" ]
   done < <(linked_files)
 }
 

@@ -64,3 +64,18 @@ EOF
   [ "$status" -eq 0 ]
   [ "$output" = "custom plugin loaded" ]
 }
+
+@test "custom.aliases resolves the project directory when sourced through a symlink" {
+  create_project_fixture "$REPO_ROOT/src/aliases/test-custom-aliases-link.bash" "custom_aliases_link_test" "custom aliases symlink loaded"
+  mkdir -p "$HOME/.bash_it/aliases"
+  ln -s "$REPO_ROOT/src/custom.aliases.bash" "$HOME/.bash_it/aliases/custom.aliases.bash"
+
+  run bash -lc '
+    export HOME="'"$HOME"'"
+    source "'"$HOME"'/.bash_it/aliases/custom.aliases.bash"
+    custom_aliases_link_test
+  '
+
+  [ "$status" -eq 0 ]
+  [ "$output" = "custom aliases symlink loaded" ]
+}

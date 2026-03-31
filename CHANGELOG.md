@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - make `install.sh` return a failure status when install or uninstall actions hit permission errors
 - make `install.sh` fail fast when a managed target path already exists as a directory
 - make `install.sh -U` propagate install failures on invalid target structures
+- make installer and custom entry points resolve symlinks without relying on GNU `readlink -f`
 - reuse the `bash-it` completion definition for the `bit` alias
 - replace `which "${cmd}"` by `command -v "${cmd}"` in waf command to look for an existing command
 - fix legacy `which-alias` test behavior and migrate coverage to `bats`
@@ -33,6 +34,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `bats` proof of concept for the updater
 - `bats` coverage for `custom.completion`
 - `bats` coverage for `custom.aliases`, `custom.lib`, and `custom.plugins`
+- `bats` coverage for sourcing `custom.aliases` through a symlink
 - `bats` coverage for installer symlink replacement and broken-link edge cases
 - `bats` coverage for update on invalid `BASH_IT` structures
 - full `bats` coverage for the project test suite

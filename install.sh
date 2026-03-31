@@ -7,10 +7,29 @@ log_action()
     echo "$1"
 }
 
+resolve_path()
+{
+    local target_path="$1"
+    local dir_path link_target
+
+    while [ -L "${target_path}" ]; do
+        dir_path="$(cd -P -- "$(dirname -- "${target_path}")" && pwd)"
+        link_target="$(readlink "${target_path}")"
+        if [[ "${link_target}" = /* ]]; then
+            target_path="${link_target}"
+        else
+            target_path="${dir_path}/${link_target}"
+        fi
+    done
+
+    dir_path="$(cd -P -- "$(dirname -- "${target_path}")" && pwd)"
+    printf '%s/%s\n' "${dir_path}" "$(basename -- "${target_path}")"
+}
+
 # get bash it custom main directory
 bash_it_custom_maindir()
 {
-    dirname "$(readlink -f "${BASH_SOURCE[0]}")"
+    dirname "$(resolve_path "${BASH_SOURCE[0]}")"
 }
 
 # get bash it custom updates directory
@@ -57,13 +76,13 @@ required_component_dirs()
 isUnlinkable()
 {
     local target="$1"
-    local realpath
+    local target_path
     local unlinkable=1
 
-    realpath="$(readlink -f "$target")"
+    target_path="$(resolve_path "${target}")"
 
     [ -h "${target}" ] &&
-        (echo "${realpath}" | grep "$(bash_it_custom_maindir)" &> /dev/null) &&
+        [[ "${target_path}" = "$(bash_it_custom_maindir)"/* ]] &&
         unlinkable=0
 
     return ${unlinkable}
