@@ -77,7 +77,7 @@ link_file()
     if ((DRY_RUN)); then
         echo "Would link ${target_file} -> ${source_file}"
     else
-        ln -fs "${source_file}" "${target_file}"
+        ln -fs "${source_file}" "${target_file}" || return 1
     fi
 }
 
@@ -88,7 +88,7 @@ unlink_file()
     if ((DRY_RUN)); then
         echo "Would unlink ${target_file}"
     else
-        unlink "${target_file}"
+        unlink "${target_file}" || return 1
     fi
 }
 
@@ -153,7 +153,9 @@ install()
     fi
 
     for link in "${!links[@]}"; do
-        link_file "$(bash_it_custom_maindir)/src/${link}" "${BASH_IT}/${links[${link}]}/${link}"
+        if ! link_file "$(bash_it_custom_maindir)/src/${link}" "${BASH_IT}/${links[${link}]}/${link}"; then
+            return 1
+        fi
     done
 
     return 0
@@ -174,7 +176,9 @@ uninstall()
     for link in "${!links[@]}"; do
         local file="${BASH_IT}/${links[${link}]}/${link}"
         if isUnlinkable "${file}"; then
-            unlink_file "${file}"
+            if ! unlink_file "${file}"; then
+                return 1
+            fi
         elif [ -h "${file}" ]; then
             skip_unmanaged_file "${file}"
         fi

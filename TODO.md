@@ -56,6 +56,7 @@
 - [x] Add a dry-run mode to `install.sh`
 - [x] Print clearer messages for install, update, and uninstall operations
 - [x] Validate edge cases around invalid or partial `BASH_IT` installations
+- [x] Validate installer behavior when filesystem permissions prevent link creation or removal
 - [ ] Consolidate `install.sh` behavior on partial, broken, or incomplete `BASH_IT` setups before any CLI migration
 
 ## Installer CLI

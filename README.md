@@ -35,6 +35,8 @@ Installer Validation
 --------------------
 `install.sh` validates that `$BASH_IT` exists and contains the required
 component directories: `aliases`, `completion`, `custom`, `lib`, and `plugins`.
+It also fails fast when install or uninstall actions cannot be completed
+because of filesystem permission errors.
 
 Verification
 ------------

@@ -7,6 +7,10 @@ setup() {
   mkdir -p "$BASH_IT"/{lib,custom,aliases,plugins,completion}
 }
 
+teardown() {
+  chmod -R u+w "$BASH_IT" 2>/dev/null || true
+}
+
 linked_files() {
   printf '%s\n' \
     "$BASH_IT/aliases/custom.aliases.bash" \
@@ -22,6 +26,10 @@ run_installer() {
 
 remove_bash_it_component_dir() {
   rm -rf "$BASH_IT/$1"
+}
+
+make_component_dir_read_only() {
+  chmod 500 "$BASH_IT/$1"
 }
 
 @test "install.sh dry-run reports install actions without creating links" {
@@ -169,6 +177,25 @@ remove_bash_it_component_dir() {
 
   [ "$status" -eq 1 ]
   [ "$output" = "Missing bash-it component directory: $BASH_IT/plugins, abort." ]
+}
+
+@test "install.sh fails when a required BASH_IT component directory is not writable" {
+  make_component_dir_read_only "plugins"
+
+  run_installer
+
+  [ "$status" -eq 1 ]
+}
+
+@test "install.sh uninstall fails when it cannot remove a managed link" {
+  run_installer
+  [ "$status" -eq 0 ]
+
+  make_component_dir_read_only "plugins"
+
+  run_installer -u
+
+  [ "$status" -eq 1 ]
 }
 
 @test "install.sh can run twice" {
