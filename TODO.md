@@ -26,7 +26,7 @@
 
 - [x] Add tests for the `src/custom.*.bash` entry points
 - [ ] Add tests for `install.sh` update mode
-- [ ] Add tests covering symlink creation and replacement edge cases
+- [x] Add tests covering symlink creation and replacement edge cases
 - [ ] Add tests for local loaders when `${HOME}/.bashrc.d` or `${HOME}/.bash_completion.d` are absent
 - [ ] Add tests for `bit` completion behavior when `bash-it` completion is unavailable or changes shape
 - [ ] Add regression tests for shell helpers that depend on external tools behavior

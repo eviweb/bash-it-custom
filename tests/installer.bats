@@ -48,6 +48,26 @@ remove_bash_it_component_dir() {
   done < <(linked_files)
 }
 
+@test "install.sh replaces an existing regular file at a managed target path" {
+  echo "legacy content" >"$BASH_IT/aliases/custom.aliases.bash"
+
+  run_installer
+
+  [ "$status" -eq 0 ]
+  [ -L "$BASH_IT/aliases/custom.aliases.bash" ]
+  [ "$(readlink -f "$BASH_IT/aliases/custom.aliases.bash")" = "$REPO_ROOT/src/custom.aliases.bash" ]
+}
+
+@test "install.sh dry-run does not replace an existing regular file" {
+  echo "legacy content" >"$BASH_IT/aliases/custom.aliases.bash"
+
+  run_installer -n
+
+  [ "$status" -eq 0 ]
+  [ ! -L "$BASH_IT/aliases/custom.aliases.bash" ]
+  [ "$(cat "$BASH_IT/aliases/custom.aliases.bash")" = "legacy content" ]
+}
+
 @test "install.sh uninstall removes links managed by this repository" {
   run_installer
   [ "$status" -eq 0 ]
@@ -72,6 +92,26 @@ remove_bash_it_component_dir() {
   [ "$status" -eq 0 ]
   [[ "$output" == *"Skipping unmanaged link"* ]]
   [ -L "$BASH_IT/aliases/custom.aliases.bash" ]
+}
+
+@test "install.sh uninstall keeps broken unmanaged links" {
+  ln -s "/non/existing/target" "$BASH_IT/aliases/custom.aliases.bash"
+
+  run_installer -u
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Skipping unmanaged link"* ]]
+  [ -L "$BASH_IT/aliases/custom.aliases.bash" ]
+}
+
+@test "install.sh uninstall removes broken managed links" {
+  ln -s "$REPO_ROOT/src/does-not-exist.bash" "$BASH_IT/aliases/custom.aliases.bash"
+
+  run_installer -u
+
+  [ "$status" -eq 0 ]
+  [ ! -e "$BASH_IT/aliases/custom.aliases.bash" ]
+  [ ! -L "$BASH_IT/aliases/custom.aliases.bash" ]
 }
 
 @test "install.sh dry-run reports uninstall actions without removing managed links" {
