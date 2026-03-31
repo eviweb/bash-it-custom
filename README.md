@@ -58,6 +58,7 @@ Notes:
 Compatibility
 -------------
 Current development and test observations:
+- Ubuntu: tested locally on Ubuntu `24.04`
 - Bash: tested with GNU Bash `5.2.21`
 - bash-it: tested against a local `bash-it` development checkout (`39f60ff`, 2026-02-23)
 - `bit` completion: explicitly adapted to reuse the completion registered by `bash-it`, which avoids depending on older internal function names

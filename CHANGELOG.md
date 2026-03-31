@@ -35,6 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `bats` coverage for `custom.completion`
 - `bats` coverage for `custom.aliases`, `custom.lib`, and `custom.plugins`
 - `bats` coverage for sourcing `custom.aliases` through a symlink
+- `bats` coverage for missing local bashrc directories
 - `bats` coverage for installer symlink replacement and broken-link edge cases
 - `bats` coverage for update on invalid `BASH_IT` structures
 - full `bats` coverage for the project test suite

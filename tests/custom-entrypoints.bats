@@ -79,3 +79,13 @@ EOF
   [ "$status" -eq 0 ]
   [ "$output" = "custom aliases symlink loaded" ]
 }
+
+@test "local-bashrc ignores a missing local initialization directory" {
+  run bash -lc '
+    export HOME="'"$HOME"'"
+    source "'"$REPO_ROOT"'/src/plugins/local-bashrc.bash"
+  '
+
+  [ "$status" -eq 0 ]
+  [ -z "$output" ]
+}
