@@ -32,6 +32,10 @@ make_component_dir_read_only() {
   chmod 500 "$BASH_IT/$1"
 }
 
+make_managed_target_directory() {
+  mkdir -p "$BASH_IT/$1"
+}
+
 @test "install.sh dry-run reports install actions without creating links" {
   run_installer -n
 
@@ -76,6 +80,14 @@ make_component_dir_read_only() {
   [ "$(cat "$BASH_IT/aliases/custom.aliases.bash")" = "legacy content" ]
 }
 
+@test "install.sh fails when a managed target path is an existing directory" {
+  make_managed_target_directory "aliases/custom.aliases.bash"
+
+  run_installer
+
+  [ "$status" -eq 1 ]
+}
+
 @test "install.sh uninstall removes links managed by this repository" {
   run_installer
   [ "$status" -eq 0 ]
@@ -88,6 +100,14 @@ make_component_dir_read_only() {
   while IFS= read -r file; do
     [ ! -L "$file" ]
   done < <(linked_files)
+}
+
+@test "install.sh uninstall fails when a managed target path is a directory" {
+  make_managed_target_directory "plugins/custom.plugins.bash"
+
+  run_installer -u
+
+  [ "$status" -eq 1 ]
 }
 
 @test "install.sh uninstall keeps links that do not point to this repository" {

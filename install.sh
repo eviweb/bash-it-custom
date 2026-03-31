@@ -99,6 +99,14 @@ skip_unmanaged_file()
     echo "Skipping unmanaged link ${target_file}"
 }
 
+fail_invalid_target()
+{
+    local target_file="$1"
+
+    echo "Invalid managed target path: ${target_file} is a directory, abort." >&2
+    return 1
+}
+
 # check bash it installation dir
 checkBashItDir()
 {
@@ -153,7 +161,13 @@ install()
     fi
 
     for link in "${!links[@]}"; do
-        if ! link_file "$(bash_it_custom_maindir)/src/${link}" "${BASH_IT}/${links[${link}]}/${link}"; then
+        local target_file="${BASH_IT}/${links[${link}]}/${link}"
+
+        if [ -d "${target_file}" ]; then
+            fail_invalid_target "${target_file}" || return 1
+        fi
+
+        if ! link_file "$(bash_it_custom_maindir)/src/${link}" "${target_file}"; then
             return 1
         fi
     done
@@ -175,6 +189,11 @@ uninstall()
 
     for link in "${!links[@]}"; do
         local file="${BASH_IT}/${links[${link}]}/${link}"
+
+        if [ -d "${file}" ]; then
+            fail_invalid_target "${file}" || return 1
+        fi
+
         if isUnlinkable "${file}"; then
             if ! unlink_file "${file}"; then
                 return 1

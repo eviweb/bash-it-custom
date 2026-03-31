@@ -27,6 +27,7 @@
 - [x] Add tests for the `src/custom.*.bash` entry points
 - [ ] Add tests for `install.sh` update mode
 - [x] Add tests covering symlink creation and replacement edge cases
+- [x] Add tests covering invalid managed target paths that exist as directories
 - [ ] Add tests for local loaders when `${HOME}/.bashrc.d` or `${HOME}/.bash_completion.d` are absent
 - [ ] Add tests for `bit` completion behavior when `bash-it` completion is unavailable or changes shape
 - [ ] Add regression tests for shell helpers that depend on external tools behavior
@@ -57,6 +58,7 @@
 - [x] Print clearer messages for install, update, and uninstall operations
 - [x] Validate edge cases around invalid or partial `BASH_IT` installations
 - [x] Validate installer behavior when filesystem permissions prevent link creation or removal
+- [x] Validate installer behavior when managed target paths are directories instead of files or symlinks
 - [ ] Consolidate `install.sh` behavior on partial, broken, or incomplete `BASH_IT` setups before any CLI migration
 
 ## Installer CLI

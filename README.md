@@ -37,6 +37,8 @@ Installer Validation
 component directories: `aliases`, `completion`, `custom`, `lib`, and `plugins`.
 It also fails fast when install or uninstall actions cannot be completed
 because of filesystem permission errors.
+Managed target paths are expected to be files or symlinks; if one of them is
+an existing directory, the installer aborts explicitly.
 
 Verification
 ------------
