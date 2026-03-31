@@ -56,3 +56,29 @@
 - [x] Add a dry-run mode to `install.sh`
 - [x] Print clearer messages for install, update, and uninstall operations
 - [ ] Validate edge cases around invalid or partial `BASH_IT` installations
+- [ ] Consolidate `install.sh` behavior on partial, broken, or incomplete `BASH_IT` setups before any CLI migration
+
+## Installer CLI
+
+- [ ] Decide whether `install.sh` should evolve into a real CLI after installer behavior is stabilized
+- [ ] Define the future CLI scope only after installer edge cases are covered by tests
+- [ ] Design explicit subcommands for the installer CLI:
+  - `install`
+  - `uninstall`
+  - `update`
+  - `check`
+  - optionally `doctor`
+- [ ] Design global options for the installer CLI:
+  - `--dry-run`
+  - `--verbose`
+  - `--quiet`
+  - `--help`
+  - `--bash-it-dir <path>`
+- [ ] Standardize installer exit codes and user-facing output before introducing subcommands
+- [ ] Add a non-destructive `check` command to validate the target `BASH_IT` structure
+- [ ] Consider adding a more detailed `doctor` command only if `check` is not sufficient
+- [ ] Prefer an incremental migration path:
+  - keep `install.sh` as the entrypoint
+  - refactor internal command dispatch first
+  - introduce subcommands second
+  - deprecate legacy short flags only after compatibility is preserved
