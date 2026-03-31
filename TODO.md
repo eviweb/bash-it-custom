@@ -41,7 +41,8 @@
 
 ## Compatibility
 
-- [ ] Document the supported or tested versions of Bash, Ubuntu, and `bash-it`
+- [x] Document the supported or tested versions of Bash and `bash-it`
+- [ ] Document the tested Ubuntu baseline explicitly
 - [ ] Review scripts for dependencies on GNU-specific behaviors such as `grep -P` and `sed -r`
 - [ ] Replace fragile shell pipelines with simpler shell-native logic where practical
 - [ ] Verify the `bit` alias completion behavior against current `bash-it` releases before the next tag
