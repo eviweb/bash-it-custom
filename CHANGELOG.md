@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `check.sh` to run the local verification workflow
 - optional `shellcheck` support in `check.sh`
 - exclude generated `rustup` completion code from `shellcheck`
+- `install.sh --check` (`-c`) to validate the current `BASH_IT` setup without changing it
 - `install.sh -n` dry-run mode for install and uninstall actions
 - clearer `install.sh` action messages for install, update, uninstall, and skipped unmanaged links
 - `bats` proof of concept for `which-alias`
@@ -36,6 +37,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `bats` coverage for `custom.aliases`, `custom.lib`, and `custom.plugins`
 - `bats` coverage for sourcing `custom.aliases` through a symlink
 - `bats` coverage for missing local bashrc directories
+- `bats` coverage for `install.sh --check`
 - `bats` coverage for installer symlink replacement and broken-link edge cases
 - `bats` coverage for update on invalid `BASH_IT` structures
 - full `bats` coverage for the project test suite

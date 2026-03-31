@@ -26,10 +26,15 @@ Dry Run
 Use `./install.sh -n` to preview install actions without modifying `$BASH_IT`.
 Use `./install.sh -n -u` to preview uninstall actions.
 
+Check
+-----
+Use `./install.sh --check` or `./install.sh -c` to validate the current
+`$BASH_IT` setup without modifying it.
+
 Installer Output
 ----------------
 `install.sh` now prints explicit action messages for install, update, uninstall,
-dry-run operations, and unmanaged links that are intentionally preserved.
+check, dry-run operations, and unmanaged links that are intentionally preserved.
 
 Installer Validation
 --------------------
@@ -39,6 +44,9 @@ It also fails fast when install or uninstall actions cannot be completed
 because of filesystem permission errors.
 Managed target paths are expected to be files or symlinks; if one of them is
 an existing directory, the installer aborts explicitly.
+The non-destructive check mode reports missing component directories, managed
+links, missing targets, external symlinks, regular files, and invalid
+directories before returning its final status.
 
 Verification
 ------------

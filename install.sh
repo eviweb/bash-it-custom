@@ -1,6 +1,7 @@
 #! /bin/bash
 UNINSTALL=0
 DRY_RUN=0
+CHECK_ONLY=0
 
 log_action()
 {
@@ -44,6 +45,7 @@ usage() {
     Usage:
         ./install.sh [OPTIONS]
     Options:
+        -c, --check validate the current \$BASH_IT setup without modifying it
         -n      dry run, print actions without modifying \$BASH_IT
         -U      update packages in \$BASH_IT
         -u      uninstall bash-it-custom package from \$BASH_IT
@@ -70,6 +72,40 @@ get_links()
 required_component_dirs()
 {
     printf '%s\n' aliases completion custom lib plugins
+}
+
+status_for_target()
+{
+    local target_file="$1"
+    local managed_source="$2"
+    local target_path
+
+    if [ -d "${target_file}" ]; then
+        printf '%s\n' "ERROR: ${target_file#"${BASH_IT}/"} -> directory"
+        return 1
+    fi
+
+    if [ ! -e "${target_file}" ] && [ ! -L "${target_file}" ]; then
+        printf '%s\n' "INFO: ${target_file#"${BASH_IT}/"} -> missing"
+        return 0
+    fi
+
+    if [ -L "${target_file}" ]; then
+        target_path="$(resolve_path "${target_file}")"
+        if [ "${target_path}" = "${managed_source}" ]; then
+            printf '%s\n' "OK: ${target_file#"${BASH_IT}/"} -> managed link"
+            return 0
+        fi
+        if [[ "${target_path}" = "$(bash_it_custom_maindir)"/* ]]; then
+            printf '%s\n' "WARN: ${target_file#"${BASH_IT}/"} -> broken managed symlink"
+            return 0
+        fi
+        printf '%s\n' "WARN: ${target_file#"${BASH_IT}/"} -> external symlink"
+        return 0
+    fi
+
+    printf '%s\n' "WARN: ${target_file#"${BASH_IT}/"} -> regular file"
+    return 0
 }
 
 # check whether a link can be removed
@@ -146,6 +182,53 @@ checkBashItDir()
             exit 1
         fi
     done < <(required_component_dirs)
+}
+
+check()
+{
+    local links
+    local component_dir
+    local has_errors=0
+
+    if [ -z "${BASH_IT}" ]; then
+        echo "No bash-it installation found, abort." >&2
+        return 1
+    fi
+
+    if [ ! -e "${BASH_IT}" ]; then
+        echo "Invalid path for bash-it: ${BASH_IT}, abort." >&2
+        return 1
+    fi
+
+    eval "$(get_links)"
+
+    echo "Checking bash-it-custom in ${BASH_IT}"
+
+    while IFS= read -r component_dir; do
+        if [ ! -d "${BASH_IT}/${component_dir}" ]; then
+            echo "ERROR: missing component directory: ${BASH_IT}/${component_dir}"
+            has_errors=1
+        fi
+    done < <(required_component_dirs)
+
+    for link in "${!links[@]}"; do
+        local target_file="${BASH_IT}/${links[${link}]}/${link}"
+        local source_file
+
+        source_file="$(bash_it_custom_maindir)/src/${link}"
+
+        if ! status_for_target "${target_file}" "${source_file}"; then
+            has_errors=1
+        fi
+    done
+
+    if ((has_errors)); then
+        echo "Check failed"
+        return 1
+    fi
+
+    echo "Check passed"
+    return 0
 }
 
 # get updates
@@ -246,11 +329,21 @@ update()
     return 0
 }
 
-OPTIONS=":hnuU"
+for arg in "$@"; do
+    case "${arg}" in
+        --check)
+            CHECK_ONLY=1
+            set -- "${@/--check/}"
+            ;;
+    esac
+done
+
+OPTIONS=":chnuU"
 # get command line options
 while getopts $OPTIONS option
 do
     case $option in
+        c) CHECK_ONLY=1;;
         n) DRY_RUN=1;;
         u) UNINSTALL=1;;
         U) UPDATE=1;;
@@ -259,7 +352,9 @@ do
 done
 shift $((OPTIND - 1))
 
-if ((UNINSTALL)); then
+if ((CHECK_ONLY)); then
+    check
+elif ((UNINSTALL)); then
     checkBashItDir && uninstall
 elif ((UPDATE)); then
     checkBashItDir && update

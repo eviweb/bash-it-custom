@@ -55,6 +55,7 @@
 
 ## Installation UX
 
+- [x] Add a non-destructive `check` mode to validate the target `BASH_IT` structure
 - [x] Add a dry-run mode to `install.sh`
 - [x] Print clearer messages for install, update, and uninstall operations
 - [x] Validate edge cases around invalid or partial `BASH_IT` installations
@@ -79,7 +80,6 @@
   - `--help`
   - `--bash-it-dir <path>`
 - [ ] Standardize installer exit codes and user-facing output before introducing subcommands
-- [ ] Add a non-destructive `check` command to validate the target `BASH_IT` structure
 - [ ] Consider adding a more detailed `doctor` command only if `check` is not sufficient
 - [ ] Prefer an incremental migration path:
   - keep `install.sh` as the entrypoint

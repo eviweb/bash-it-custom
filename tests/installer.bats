@@ -248,3 +248,61 @@ make_managed_target_directory() {
   [ "$status" -eq 1 ]
   [[ "$output" == *"Usage:"* ]]
 }
+
+@test "install.sh --check succeeds on a healthy managed installation" {
+  run_installer
+  [ "$status" -eq 0 ]
+
+  run_installer --check
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Check passed"* ]]
+  [[ "$output" == *"OK: aliases/custom.aliases.bash -> managed link"* ]]
+}
+
+@test "install.sh --check fails when BASH_IT is unset" {
+  run env -u BASH_IT HOME="$HOME" bash "$REPO_ROOT/install.sh" --check
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "No bash-it installation found, abort." ]
+}
+
+@test "install.sh --check fails when a required component directory is missing" {
+  remove_bash_it_component_dir "plugins"
+
+  run_installer --check
+
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"ERROR: missing component directory: $BASH_IT/plugins"* ]]
+  [[ "$output" == *"Check failed"* ]]
+}
+
+@test "install.sh --check fails when a managed target path is a directory" {
+  make_managed_target_directory "plugins/custom.plugins.bash"
+
+  run_installer --check
+
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"ERROR: plugins/custom.plugins.bash -> directory"* ]]
+  [[ "$output" == *"Check failed"* ]]
+}
+
+@test "install.sh --check warns about external managed target links" {
+  external_file="$HOME/custom.aliases.bash"
+  touch "$external_file"
+  ln -s "$external_file" "$BASH_IT/aliases/custom.aliases.bash"
+
+  run_installer --check
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"WARN: aliases/custom.aliases.bash -> external symlink"* ]]
+  [[ "$output" == *"Check passed"* ]]
+}
+
+@test "install.sh --check reports missing managed target files" {
+  run_installer --check
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"INFO: aliases/custom.aliases.bash -> missing"* ]]
+  [[ "$output" == *"Check passed"* ]]
+}
