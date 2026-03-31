@@ -33,3 +33,20 @@ run_installer() {
     [ -e "$(readlink -f "$file")" ]
   done < <(linked_files)
 }
+
+@test "install.sh -U fails when a managed target path is a directory" {
+  mkdir -p "$BASH_IT/plugins/custom.plugins.bash"
+
+  run_installer -U
+
+  [ "$status" -eq 1 ]
+}
+
+@test "install.sh -U fails when a required component directory is missing" {
+  rm -rf "$BASH_IT/plugins"
+
+  run_installer -U
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "Missing bash-it component directory: $BASH_IT/plugins, abort." ]
+}

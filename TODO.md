@@ -25,7 +25,7 @@
 ## Test Coverage
 
 - [x] Add tests for the `src/custom.*.bash` entry points
-- [ ] Add tests for `install.sh` update mode
+- [x] Add tests for `install.sh` update mode
 - [x] Add tests covering symlink creation and replacement edge cases
 - [x] Add tests covering invalid managed target paths that exist as directories
 - [ ] Add tests for local loaders when `${HOME}/.bashrc.d` or `${HOME}/.bash_completion.d` are absent

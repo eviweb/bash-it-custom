@@ -222,7 +222,7 @@ update()
     for update in "${updates[@]}"; do
         apply_update "$(bash_it_custom_updatesdir)/${update}"
     done
-    install
+    install || return 1
 
     return 0
 }
