@@ -2,6 +2,8 @@
 UNINSTALL=0
 DRY_RUN=0
 CHECK_ONLY=0
+UPDATE_ONLY=0
+ACTION="install"
 
 log_action()
 {
@@ -329,35 +331,71 @@ update()
     return 0
 }
 
-for arg in "$@"; do
-    case "${arg}" in
-        --check)
-            CHECK_ONLY=1
-            set -- "${@/--check/}"
+normalize_long_options()
+{
+    local normalized_args=()
+    local arg
+
+    for arg in "$@"; do
+        case "${arg}" in
+            --check) normalized_args+=("-c");;
+            *) normalized_args+=("${arg}");;
+        esac
+    done
+
+    printf '%s\n' "${normalized_args[@]}"
+}
+
+parse_arguments()
+{
+    local normalized_args=()
+    local option
+
+    mapfile -t normalized_args < <(normalize_long_options "$@")
+
+    OPTIND=1
+    while getopts ":chnuU" option "${normalized_args[@]}"; do
+        case "${option}" in
+            c) CHECK_ONLY=1;;
+            h) usage
+               return 1;;
+            n) DRY_RUN=1;;
+            u) UNINSTALL=1;;
+            U) UPDATE_ONLY=1;;
+            *) usage
+               return 1;;
+        esac
+    done
+
+    if ((CHECK_ONLY)); then
+        ACTION="check"
+    elif ((UNINSTALL)); then
+        ACTION="uninstall"
+    elif ((UPDATE_ONLY)); then
+        ACTION="update"
+    else
+        ACTION="install"
+    fi
+
+    return 0
+}
+
+run_action()
+{
+    case "${ACTION}" in
+        check)
+            check
+            ;;
+        uninstall)
+            checkBashItDir && uninstall
+            ;;
+        update)
+            checkBashItDir && update
+            ;;
+        install)
+            checkBashItDir && install
             ;;
     esac
-done
+}
 
-OPTIONS=":chnuU"
-# get command line options
-while getopts $OPTIONS option
-do
-    case $option in
-        c) CHECK_ONLY=1;;
-        n) DRY_RUN=1;;
-        u) UNINSTALL=1;;
-        U) UPDATE=1;;
-        *) usage && exit 1;;
-    esac
-done
-shift $((OPTIND - 1))
-
-if ((CHECK_ONLY)); then
-    check
-elif ((UNINSTALL)); then
-    checkBashItDir && uninstall
-elif ((UPDATE)); then
-    checkBashItDir && update
-else
-    checkBashItDir && install
-fi
+parse_arguments "$@" && run_action

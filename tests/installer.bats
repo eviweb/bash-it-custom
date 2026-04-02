@@ -306,3 +306,20 @@ make_managed_target_directory() {
   [[ "$output" == *"INFO: aliases/custom.aliases.bash -> missing"* ]]
   [[ "$output" == *"Check passed"* ]]
 }
+
+@test "install.sh -c behaves like --check" {
+  run_installer -c
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Checking bash-it-custom in $BASH_IT"* ]]
+  [[ "$output" == *"Check passed"* ]]
+}
+
+@test "install.sh prioritizes check over mutating actions when flags are combined" {
+  run_installer -u -c
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Checking bash-it-custom in $BASH_IT"* ]]
+  [[ "$output" == *"Check passed"* ]]
+  [[ "$output" != *"Uninstalling bash-it-custom from"* ]]
+}

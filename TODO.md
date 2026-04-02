@@ -81,8 +81,7 @@
   - `--bash-it-dir <path>`
 - [ ] Standardize installer exit codes and user-facing output before introducing subcommands
 - [ ] Consider adding a more detailed `doctor` command only if `check` is not sufficient
-- [ ] Prefer an incremental migration path:
-  - keep `install.sh` as the entrypoint
-  - refactor internal command dispatch first
-  - introduce subcommands second
-  - deprecate legacy short flags only after compatibility is preserved
+- [x] Keep `install.sh` as the entrypoint during the installer CLI transition
+- [x] Refactor internal command dispatch before introducing subcommands
+- [ ] Introduce installer subcommands after the internal dispatch is stabilized
+- [ ] Deprecate legacy short flags only after compatibility is preserved
